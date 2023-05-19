@@ -7,8 +7,6 @@ export default function Login() {
     const [password, setPassword] = useState(process.env.NEXT_PUBLIC_CYCLEO_PASSWORD);
 
     async function sendLogin() {
-        console.log(username, password);
-
         const response = await fetch(loginUrl, {
             method: "POST",
             cache: 'no-store',
@@ -21,11 +19,7 @@ export default function Login() {
                 username,
             }),
         });
-
-        console.log(await response.json());
     }
-
-
 
     return (
         <main className="flex flex-col">
