@@ -5,7 +5,7 @@ import {Station as CykleoStation} from "@/types/cykleo/station";
 import {useGetVcubsQuery} from "@/redux/services/tbmWSApi";
 import {Station, VcubResponse} from "@/types/tbm/ws/station";
 import {useEffect, useState} from "react";
-import RentSummaryMap from "@/components/molecules/RentSummaryMap";
+import RentSummaryMap from "@/components/molecules/Maps/RentSummaryMap";
 
 export default function RentSummary({rent}: { rent: Rent }) {
     const [stationStart, setStationStart]: [Station, Function] = useState(null);

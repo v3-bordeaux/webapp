@@ -1,6 +1,6 @@
-import Map from "@/components/molecules/Map/Map";
-import {Layers, TileLayer} from "@/components/molecules/Layers";
-import {osm} from "@/components/molecules/Source";
+import Map from "@/components/molecules/Maps/Map/Map";
+import {Layers, TileLayer} from "@/components/molecules/Maps/Layers";
+import {osm} from "@/components/molecules/Maps/Source";
 import {fromLonLat} from 'ol/proj';
 import {useState} from "react";
 

@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react"
 import * as ol from "ol";
-import MapContext from "@/components/molecules/Map/MapContext";
+import MapContext from "@/components/molecules/Maps/Map/MapContext";
 
 export default function Map({children, zoom, center}) {
     const mapRef = useRef();
