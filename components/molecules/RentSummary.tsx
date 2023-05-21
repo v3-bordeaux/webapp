@@ -54,7 +54,9 @@ export default function RentSummary({rent}: { rent: Rent }) {
     const duration = endDateParsed.diff(beginDateParsed, 'm');
     return (
         <article className="bg-slate-200 rounded-md p-3 flex flex-col">
-            <RentSummaryMap/>
+            {stationStart && stationEnd && (
+                <RentSummaryMap stationStart={stationStart} stationEnd={stationEnd}/>
+            )}
             <span>Durée: {duration} minute(s)</span>
             <span>Du {beginDateParsed.format('DD/MM/YYYY à HH[h]mm')} au {endDateParsed.format('DD/MM/YYYY à HH[h]mm')}</span>
             <span>De {stationStart?.name} à {stationEnd?.name}</span>
