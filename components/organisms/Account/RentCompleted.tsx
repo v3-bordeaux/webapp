@@ -4,7 +4,7 @@ import Spinner from "@/components/atoms/Spinner";
 import {H2} from "@/components/atoms/H2";
 import {useGetRentsCompletedQuery} from "@/redux/services/cykleoApi";
 import {Rent, RentResponse} from "@/types/cykleo/rent";
-import RentSummary from "@/components/atoms/RentSummary";
+import RentSummary from "@/components/molecules/RentSummary";
 
 export function RentCompleted() {
     const {isLoading, isFetching, data, error}: { data: RentResponse } = useGetRentsCompletedQuery(null);

@@ -18,6 +18,12 @@ export const cykleoApi = createApi({
                 credentials: 'include',
             }),
         }),
+        getStation: builder.query({
+            query: ({stationId}) => ({
+                url: `/pu/stations/${stationId}`,
+                credentials: 'include',
+            }),
+        }),
         getAuthInformations: builder.query({
             query: () => ({
                 url: "/pu/auth",
@@ -46,5 +52,6 @@ export const {
     useGetRentsInProgressQuery,
     useGetRentsCompletedQuery,
     useGetAuthInformationsQuery,
+    useGetStationQuery,
     useLoginMutation,
 } = cykleoApi;
