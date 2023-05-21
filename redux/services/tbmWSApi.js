@@ -1,8 +1,9 @@
-import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
+import {createApi} from "@reduxjs/toolkit/query/react";
+import fetchBaseQueryAuth from "@/redux/services/query";
 
 export const tbmWSApi = createApi({
     reducerPath: "tbmWSApi",
-    baseQuery: fetchBaseQuery({
+    baseQuery: fetchBaseQueryAuth({
         baseUrl: "/tbm/ws/",
     }),
     endpoints: (builder) => ({

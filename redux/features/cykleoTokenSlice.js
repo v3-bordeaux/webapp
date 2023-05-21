@@ -22,8 +22,8 @@ export const cykleoToken = createSlice({
             }
         },
 
-        invalidToken: (state) => {
-            state.value = null
+        invalidateToken: (state) => {
+            state.value = null;
             localStorage.removeItem(LOCAL_STORAGE_ITEM);
         }
     }
@@ -32,6 +32,6 @@ export const cykleoToken = createSlice({
 export const {
     setToken,
     loadFromLocalStorage,
-    invalidToken,
+    invalidateToken,
 } = cykleoToken.actions
 export default cykleoToken.reducer

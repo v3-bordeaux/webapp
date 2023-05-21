@@ -1,8 +1,9 @@
-import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
+import {createApi} from "@reduxjs/toolkit/query/react";
+import fetchBaseQueryAuth from "@/redux/services/query";
 
 export const cykleoApi = createApi({
     reducerPath: "cykleoApi",
-    baseQuery: fetchBaseQuery({
+    baseQuery: fetchBaseQueryAuth({
         baseUrl: "/cykleo/",
     }),
     endpoints: (builder) => ({
