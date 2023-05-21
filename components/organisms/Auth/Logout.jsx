@@ -13,7 +13,7 @@ export default function Logout() {
 
     return (
         <Card>
-            <Button className="bg-red-500 text-white" onClick={signOut}>Se déconnecter</Button>
+            <Button className="!bg-red-500 text-white" onClick={signOut}>Se déconnecter</Button>
         </Card>
     )
 }
