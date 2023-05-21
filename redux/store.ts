@@ -1,14 +1,12 @@
 import {configureStore} from "@reduxjs/toolkit";
-import counterReducer from "@/redux/features/counterSlice";
-import cycleoTokenReducer from "@/redux/features/cykleoTokenSlice";
+import cykleoTokenReducer from "@/redux/features/cykleoTokenSlice";
 import {cykleoApi} from "@/redux/services/cykleoApi";
-import {setupListeners} from "@reduxjs/toolkit/query";
+import {setupListeners} from "@reduxjs/toolkit/dist/query";
 import {tbmWSApi} from "@/redux/services/tbmWSApi";
 
 export const store = configureStore({
     reducer: {
-        counterReducer,
-        cycleoTokenReducer,
+        cykleoTokenReducer,
         [cykleoApi.reducerPath]: cykleoApi.reducer,
         [tbmWSApi.reducerPath]: tbmWSApi.reducer,
     },
@@ -18,3 +16,6 @@ export const store = configureStore({
 });
 
 setupListeners(store.dispatch);
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

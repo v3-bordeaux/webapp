@@ -9,7 +9,7 @@ export default function fetchBaseQueryAuth(params) {
         unknown,
         FetchBaseQueryError> = async (args, api, extraOptions) => {
         let result = await baseQuery(args, api, extraOptions)
-        if (result?.error && result?.error.status === 401) {
+        if (result.error && result.error.status === 401) {
             api.dispatch(invalidateToken());
             location.reload();
         }

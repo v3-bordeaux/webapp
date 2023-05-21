@@ -1,5 +1,7 @@
 import {createApi} from "@reduxjs/toolkit/query/react";
 import fetchBaseQueryAuth from "@/redux/services/query";
+import {RentResponse} from "@/types/cykleo/rent";
+import {Station} from "@/types/cykleo/station";
 
 export const cykleoApi = createApi({
     reducerPath: "cykleoApi",
@@ -7,31 +9,31 @@ export const cykleoApi = createApi({
         baseUrl: "/cykleo/",
     }),
     endpoints: (builder) => ({
-        getRentsInProgress: builder.query({
+        getRentsInProgress: builder.query<RentResponse, void>({
             query: () => ({
                 url: "/pu/rents/in_progress?size=1&sort=beginDate,DESC&version=2",
-                credentials: 'include',
+                credentials: 'include'
             }),
         }),
-        getRentsCompleted: builder.query({
+        getRentsCompleted: builder.query<RentResponse, void>({
             query: () => ({
                 url: "/pu/rents/completed?sort=beginDate,DESC",
                 credentials: 'include',
             }),
         }),
-        getStation: builder.query({
+        getStation: builder.query<Station, { stationId: number }>({
             query: ({stationId}) => ({
                 url: `/pu/stations/${stationId}`,
                 credentials: 'include',
-            }),
+            })
         }),
-        getAuthInformations: builder.query({
+        getAuthInformations: builder.query<any, void>({
             query: () => ({
                 url: "/pu/auth",
                 credentials: 'include',
             }),
         }),
-        login: builder.mutation({
+        login: builder.mutation<any, { username: string, password: string }>({
             query: ({username, password}) => ({
                 url: `/pu/auth`,
                 credentials: 'include',

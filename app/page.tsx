@@ -6,9 +6,10 @@ import {RentInProgress} from "@/components/organisms/Account/RentInProgress";
 import {H1} from "@/components/atoms/H1";
 import Logout from "@/components/organisms/Auth/Logout";
 import {RentCompleted} from "@/components/organisms/Account/RentCompleted";
+import {RootState} from "@/redux/store";
 
 export default function Home() {
-    const token = useAppSelector((state) => state.cycleoTokenReducer.value);
+    const token = useAppSelector((state: RootState) => state.cykleoTokenReducer.value);
 
     return (
         <main className="px-4">

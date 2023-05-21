@@ -1,19 +1,25 @@
-import {createSlice} from '@reduxjs/toolkit'
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 
 const LOCAL_STORAGE_ITEM = 'v3-cykleo-token';
 
+type CykleoTokenState = {
+    value: string | null;
+};
+
+const initialState = {
+    value: null
+} as CykleoTokenState;
+
 export const cykleoToken = createSlice({
-    name: 'cycleoToken',
-    initialState: {
-        value: null
-    },
+    name: 'cykleoToken',
+    initialState,
     reducers: {
-        setToken: (state, action) => {
+        setToken: (state: CykleoTokenState, action: PayloadAction<string>) => {
             state.value = action.payload
             localStorage.setItem(LOCAL_STORAGE_ITEM, JSON.stringify(action.payload));
         },
 
-        loadFromLocalStorage: (state) => {
+        loadFromLocalStorage: (state: CykleoTokenState) => {
             const item = localStorage.getItem(LOCAL_STORAGE_ITEM);
             try {
                 state.value = JSON.parse(item)
@@ -22,7 +28,7 @@ export const cykleoToken = createSlice({
             }
         },
 
-        invalidateToken: (state) => {
+        invalidateToken: (state: CykleoTokenState) => {
             state.value = null;
             localStorage.removeItem(LOCAL_STORAGE_ITEM);
         }

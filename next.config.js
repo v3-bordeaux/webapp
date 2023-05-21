@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    env: {
-        localStorageKey: 'v3-',
-    },
     async rewrites() {
         return [
             {
