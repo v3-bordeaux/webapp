@@ -14,16 +14,13 @@ export default function Login() {
 
     const dispatch = useAppDispatch();
 
+    const wrongAuth = loginResponse.isError && loginResponse.error.data.error === "Unauthorized";
+
     async function sendLogin() {
-        try {
-            login({
-                password,
-                username
-            }).unwrap()
-        } catch (e) {
-            alert('Une erreur est survenue');
-            console.error(e);
-        }
+        login({
+            password,
+            username
+        })
     }
 
     useEffect(() => {
@@ -35,6 +32,9 @@ export default function Login() {
     return (
         <Card>
             <form className="flex flex-col">
+                {wrongAuth && (
+                    <p className="mb-6 rounded-md py-3 px-4 bg-red-200 text-red-900">Email ou mot de passe incorrect</p>
+                )}
                 <label htmlFor="email">E-mail</label>
                 <Input className="mt-2" autoFocus type="text" id="email" name="email" required value={username || ''}
                        onChange={e => setUsername(e.target.value)}/>
