@@ -5,6 +5,7 @@ import {Station as CykleoStation} from "@/types/cykleo/station";
 import {useGetVcubsQuery} from "@/redux/services/tbmWSApi";
 import {Station, VcubResponse} from "@/types/tbm/ws/station";
 import {useEffect, useState} from "react";
+import RentSummaryMap from "@/components/molecules/Maps/RentSummaryMap";
 
 export default function RentSummary({rent}: { rent: Rent }) {
     const [stationStart, setStationStart]: [Station, Function] = useState(null);
@@ -52,7 +53,10 @@ export default function RentSummary({rent}: { rent: Rent }) {
     const endDateParsed = dayjs(rent.endDate)
     const duration = endDateParsed.diff(beginDateParsed, 'm');
     return (
-        <article className="bg-slate-200 rounded-md p-3 flex flex-col">
+        <article className="bg-slate-200 rounded-xl p-3 flex flex-col">
+            {stationStart && stationEnd && (
+                <RentSummaryMap stationStart={stationStart} stationEnd={stationEnd}/>
+            )}
             <span>Durée: {duration} minute(s)</span>
             <span>Du {beginDateParsed.format('DD/MM/YYYY à HH[h]mm')} au {endDateParsed.format('DD/MM/YYYY à HH[h]mm')}</span>
             <span>De {stationStart?.name} à {stationEnd?.name}</span>
