@@ -2,14 +2,14 @@
 
 import {store} from "./store";
 import {Provider} from "react-redux";
-import {Layout} from "@/redux/Layout";
+import {Initialiser} from "@/redux/Initialiser";
 
 export function Providers({children}) {
     return (
         <Provider store={store}>
-            <Layout>
+            <Initialiser>
                 {children}
-            </Layout>
+            </Initialiser>
         </Provider>
     );
 }
