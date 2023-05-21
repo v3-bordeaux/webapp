@@ -34,7 +34,7 @@ export default function Map({children, zoom, center}) {
 
     return (
         <MapContext.Provider value={{map}}>
-            <div ref={mapRef} className="w-full aspect-video">
+            <div ref={mapRef} className="w-full aspect-video rounded-lg overflow-hidden">
                 {children}
             </div>
         </MapContext.Provider>

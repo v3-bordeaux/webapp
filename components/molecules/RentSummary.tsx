@@ -53,7 +53,7 @@ export default function RentSummary({rent}: { rent: Rent }) {
     const endDateParsed = dayjs(rent.endDate)
     const duration = endDateParsed.diff(beginDateParsed, 'm');
     return (
-        <article className="bg-slate-200 rounded-md p-3 flex flex-col">
+        <article className="bg-slate-200 rounded-xl p-3 flex flex-col">
             {stationStart && stationEnd && (
                 <RentSummaryMap stationStart={stationStart} stationEnd={stationEnd}/>
             )}
