@@ -1,7 +1,7 @@
 'use client';
 import {useAppDispatch} from "@/redux/hooks";
 import {Button} from "@/components/atoms/Button";
-import {invalidToken} from "@/redux/features/cycleoTokenSlice";
+import {invalidToken} from "@/redux/features/cykleoTokenSlice";
 import {Card} from "@/components/atoms/Card";
 
 export default function Logout() {

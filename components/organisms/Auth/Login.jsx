@@ -4,8 +4,8 @@ import {useAppDispatch} from "@/redux/hooks";
 import {Input} from "@/components/atoms/Input";
 import {Button} from "@/components/atoms/Button";
 import {Card} from "@/components/atoms/Card";
-import {useLoginMutation} from "@/redux/services/cycleoApi";
-import {setToken} from "@/redux/features/cycleoTokenSlice";
+import {useLoginMutation} from "@/redux/services/cykleoApi";
+import {setToken} from "@/redux/features/cykleoTokenSlice";
 
 export default function Login() {
     const [username, setUsername] = useState(process.env.NEXT_PUBLIC_CYCLEO_USERNAME || null);

@@ -1,18 +1,18 @@
 import {configureStore} from "@reduxjs/toolkit";
 import counterReducer from "@/redux/features/counterSlice";
-import cycleoTokenReducer from "@/redux/features/cycleoTokenSlice";
-import {cycleoApi} from "@/redux/services/cycleoApi";
+import cycleoTokenReducer from "@/redux/features/cykleoTokenSlice";
+import {cykleoApi} from "@/redux/services/cykleoApi";
 import {setupListeners} from "@reduxjs/toolkit/query";
 
 export const store = configureStore({
     reducer: {
         counterReducer,
         cycleoTokenReducer,
-        [cycleoApi.reducerPath]: cycleoApi.reducer,
+        [cykleoApi.reducerPath]: cykleoApi.reducer,
     },
     devTools: process.env.NODE_ENV !== "production",
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({}).concat([cycleoApi.middleware]),
+        getDefaultMiddleware({}).concat([cykleoApi.middleware]),
 });
 
 setupListeners(store.dispatch);

@@ -1,8 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit'
 
-const LOCAL_STORAGE_ITEM = 'v3-cycleo-token';
+const LOCAL_STORAGE_ITEM = 'v3-cykleo-token';
 
-export const cycleoToken = createSlice({
+export const cykleoToken = createSlice({
     name: 'cycleoToken',
     initialState: {
         value: null
@@ -33,5 +33,5 @@ export const {
     setToken,
     loadFromLocalStorage,
     invalidToken,
-} = cycleoToken.actions
-export default cycleoToken.reducer
+} = cykleoToken.actions
+export default cykleoToken.reducer

@@ -2,7 +2,7 @@
 import {Card} from "@/components/atoms/Card";
 import Spinner from "@/components/atoms/Spinner";
 import {H2} from "@/components/atoms/H2";
-import {useGetRentsInProgressQuery} from "@/redux/services/cycleoApi";
+import {useGetRentsInProgressQuery} from "@/redux/services/cykleoApi";
 
 export function RentInProgress() {
     const {isLoading, isFetching, data, error} = useGetRentsInProgressQuery(null);

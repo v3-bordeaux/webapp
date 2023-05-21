@@ -1,4 +1,4 @@
-import {Rent} from "@/types/rent";
+import {Rent} from "@/types/cykleo/rent";
 import dayjs from "dayjs";
 
 export default function RentSummary({rent}: { rent: Rent }) {

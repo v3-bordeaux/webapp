@@ -1,9 +1,9 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 
-export const cycleoApi = createApi({
-    reducerPath: "cycleoApi",
+export const cykleoApi = createApi({
+    reducerPath: "cykleoApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "/cycleo/",
+        baseUrl: "/cykleo/",
     }),
     endpoints: (builder) => ({
         getRentsInProgress: builder.query({
@@ -47,4 +47,4 @@ export const {
     useGetRentsCompletedQuery,
     useGetAuthInformationsQuery,
     useLoginMutation,
-} = cycleoApi;
+} = cykleoApi;

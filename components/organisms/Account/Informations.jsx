@@ -2,7 +2,7 @@
 import {Card} from "@/components/atoms/Card";
 import Spinner from "@/components/atoms/Spinner";
 import {H2} from "@/components/atoms/H2";
-import {useGetAuthInformationsQuery} from "@/redux/services/cycleoApi";
+import {useGetAuthInformationsQuery} from "@/redux/services/cykleoApi";
 
 export function Informations() {
     const {isLoading, isFetching, data, error} = useGetAuthInformationsQuery(null);
