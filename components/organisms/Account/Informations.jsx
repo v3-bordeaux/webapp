@@ -1,40 +1,21 @@
 'use client';
-import {useAppSelector} from "@/redux/hooks";
 import {Card} from "@/components/atoms/Card";
-import {useEffect, useState} from "react";
 import Spinner from "@/components/atoms/Spinner";
 import {H2} from "@/components/atoms/H2";
+import {useGetAuthInformationsQuery} from "@/redux/services/cycleoApi";
 
 export function Informations() {
-    const token = useAppSelector((state) => state.cycleoTokenReducer.value);
-
-    const [informations, setInformations] = useState(null);
-
-    useEffect(() => {
-        async function fetchData() {
-            const response = await fetch("/cycleo/pu/auth", {
-                credentials: 'include',
-            });
-
-            const json = await response.json()
-
-            console.log(json)
-            setInformations(json);
-        }
-
-        fetchData()
-    }, [])
+    const {isLoading, isFetching, data, error} = useGetAuthInformationsQuery(null);
 
     return (
         <Card>
-            {informations ? (
+            {isFetching || isLoading ? <Spinner/> : (
                 <>
                     <H2>Informations</H2>
-                    <span>Prénom: {informations.firstname}</span>
-                    <span>Nom: {informations.lastname}</span>
+                    <span>Prénom: {data.firstname}</span>
+                    <span>Nom: {data.lastname}</span>
                 </>
-            ) : <Spinner/>
-            }
+            )}
         </Card>
     );
 }

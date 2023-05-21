@@ -1,42 +1,36 @@
 'use client';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useAppDispatch} from "@/redux/hooks";
-import {setToken} from "@/redux/features/cycleoTokenSlice";
 import {Input} from "@/components/atoms/Input";
 import {Button} from "@/components/atoms/Button";
 import {Card} from "@/components/atoms/Card";
+import {useLoginMutation} from "@/redux/services/cycleoApi";
+import {setToken} from "@/redux/features/cycleoTokenSlice";
 
 export default function Login() {
-    const loginUrl = "/cycleo/pu/auth";
     const [username, setUsername] = useState(process.env.NEXT_PUBLIC_CYCLEO_USERNAME || null);
     const [password, setPassword] = useState(process.env.NEXT_PUBLIC_CYCLEO_PASSWORD || null);
+    const [login, loginResponse] = useLoginMutation();
+
     const dispatch = useAppDispatch();
 
     async function sendLogin() {
         try {
-
-            const response = await fetch(loginUrl, {
-                method: "POST",
-                cache: 'no-store',
-                credentials: 'include',
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    organizationId: 7,
-                    password,
-                    username,
-                }),
-            });
-
-            const json = await response.json()
-
-            dispatch(setToken(json.access_token))
+            login({
+                password,
+                username
+            }).unwrap()
         } catch (e) {
             alert('Une erreur est survenue');
             console.error(e);
         }
     }
+
+    useEffect(() => {
+        if (loginResponse.status === "fulfilled") {
+            dispatch(setToken(loginResponse.data.access_token))
+        }
+    }, [loginResponse]);
 
     return (
         <Card>
