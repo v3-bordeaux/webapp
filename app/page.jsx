@@ -5,6 +5,7 @@ import {Informations} from "@/components/organisms/Account/Informations";
 import {RentInProgress} from "@/components/organisms/Account/RentInProgress";
 import {H1} from "@/components/atoms/H1";
 import Logout from "@/components/organisms/Auth/Logout";
+import {RentCompleted} from "@/components/organisms/Account/RentCompleted";
 
 export default function Home() {
     const token = useAppSelector((state) => state.cycleoTokenReducer.value);
@@ -16,6 +17,7 @@ export default function Home() {
                 <div className="flex flex-col gap-4">
                     <Informations/>
                     <RentInProgress/>
+                    <RentCompleted/>
                     <Logout/>
                 </div>
             ) : (

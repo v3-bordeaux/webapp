@@ -1,30 +1,30 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 
-type User = {
-    id: number;
-    name: string;
-    email: number;
-};
-
 export const cycleoApi = createApi({
     reducerPath: "cycleoApi",
     baseQuery: fetchBaseQuery({
         baseUrl: "/cycleo/",
     }),
     endpoints: (builder) => ({
-        getRentsInProgress: builder.query<any, null>({
+        getRentsInProgress: builder.query({
             query: () => ({
                 url: "/pu/rents/in_progress?size=1&sort=beginDate,DESC&version=2",
                 credentials: 'include',
             }),
         }),
-        getAuthInformations: builder.query<any, null>({
+        getRentsCompleted: builder.query({
+            query: () => ({
+                url: "/pu/rents/completed?sort=beginDate,DESC",
+                credentials: 'include',
+            }),
+        }),
+        getAuthInformations: builder.query({
             query: () => ({
                 url: "/pu/auth",
                 credentials: 'include',
             }),
         }),
-        login: builder.mutation<User, { username: string, password: string }>({
+        login: builder.mutation({
             query: ({username, password}) => ({
                 url: `/pu/auth`,
                 credentials: 'include',
@@ -44,6 +44,7 @@ export const cycleoApi = createApi({
 
 export const {
     useGetRentsInProgressQuery,
+    useGetRentsCompletedQuery,
     useGetAuthInformationsQuery,
     useLoginMutation,
 } = cycleoApi;
