@@ -39,7 +39,7 @@ export default function Login() {
     }
 
     return (
-        <Card className="mt-10">
+        <Card>
             <form className="flex flex-col">
                 <label htmlFor="email">E-mail</label>
                 <Input className="mt-2" autoFocus type="text" id="email" name="email" required value={username || ''}

@@ -2,16 +2,19 @@
 import {useAppSelector} from "@/redux/hooks";
 import Login from "@/components/organisms/Auth/Login";
 import {Informations} from "@/components/organisms/Account/Informations";
+import {RentInProgress} from "@/components/organisms/Account/RentInProgress";
+import {H1} from "@/components/atoms/H1";
 
 export default function Home() {
     const token = useAppSelector((state) => state.cycleoTokenReducer.value);
 
     return (
         <main className="px-4">
-            <h3>V3 Bordeaux</h3>
+            <H1 className="!my-10 text-center">V3 Bordeaux</H1>
             {token ? (
-                <div>
+                <div className="flex flex-col gap-4">
                     <Informations/>
+                    <RentInProgress/>
                 </div>
             ) : (
                 <Login/>

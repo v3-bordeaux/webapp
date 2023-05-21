@@ -5,21 +5,21 @@ import {useEffect, useState} from "react";
 import Spinner from "@/components/atoms/Spinner";
 import {H2} from "@/components/atoms/H2";
 
-export function Informations() {
+export function RentInProgress() {
     const token = useAppSelector((state) => state.cycleoTokenReducer.value);
 
-    const [informations, setInformations] = useState(null);
+    const [rent, setRent] = useState(null);
 
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch("/cycleo/pu/auth", {
+            const response = await fetch("/cycleo/pu/rents/in_progress?size=1&sort=beginDate,DESC&version=2", {
                 credentials: 'include',
             });
 
             const json = await response.json()
 
             console.log(json)
-            setInformations(json);
+            setRent(json);
         }
 
         fetchData()
@@ -27,11 +27,15 @@ export function Informations() {
 
     return (
         <Card>
-            {informations ? (
+            {rent ? (
                 <>
-                    <H2>Informations</H2>
-                    <span>Prénom: {informations.firstname}</span>
-                    <span>Nom: {informations.lastname}</span>
+                    <H2>Location en cours</H2>
+                    {rent.totalElements === 0 && (
+                        <span>Pas de location en cours</span>
+                    )}
+                    {rent.totalElements === 1 && (
+                        <span>Location en cours</span>
+                    )}
                 </>
             ) : <Spinner/>
             }
