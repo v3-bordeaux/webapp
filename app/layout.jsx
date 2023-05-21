@@ -1,6 +1,5 @@
 import './globals.css'
 import {Providers} from "@/redux/Providers";
-import {Layout} from "@/redux/Layout";
 
 export const metadata = {
     title: 'V3 Bordeaux',
@@ -12,9 +11,7 @@ export default function RootLayout({children}) {
         <html lang="fr">
         <body>
         <Providers>
-            <Layout>
-                {children}
-            </Layout>
+            {children}
         </Providers>
         </body>
         </html>
