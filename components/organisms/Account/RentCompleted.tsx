@@ -7,7 +7,7 @@ import {Rent, RentResponse} from "@/types/cykleo/rent";
 import RentSummary from "@/components/molecules/RentSummary";
 
 export function RentCompleted() {
-    const {isLoading, isFetching, data, error}: { data: RentResponse } = useGetRentsCompletedQuery(null);
+    const {isLoading, isFetching, data, error} = useGetRentsCompletedQuery(null);
 
     return (
         <Card>

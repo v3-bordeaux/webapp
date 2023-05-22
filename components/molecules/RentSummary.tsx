@@ -1,9 +1,8 @@
 import {Rent} from "@/types/cykleo/rent";
 import dayjs from "dayjs";
 import {useGetStationQuery} from "@/redux/services/cykleoApi";
-import {Station as CykleoStation} from "@/types/cykleo/station";
 import {useGetVcubsQuery} from "@/redux/services/tbmWSApi";
-import {Station, VcubResponse} from "@/types/tbm/ws/station";
+import {Station} from "@/types/tbm/ws/station";
 import {useEffect, useState} from "react";
 import RentSummaryMap from "@/components/molecules/Maps/RentSummaryMap";
 
@@ -11,11 +10,11 @@ export default function RentSummary({rent}: { rent: Rent }) {
     const [stationStart, setStationStart]: [Station, Function] = useState(null);
     const [stationEnd, setStationEnd]: [Station, Function] = useState(null);
 
-    const vcubsQuery: { data: VcubResponse } = useGetVcubsQuery();
-    const stationStartQuery: { data: CykleoStation } = useGetStationQuery({
+    const vcubsQuery = useGetVcubsQuery();
+    const stationStartQuery = useGetStationQuery({
         stationId: rent.stationStart
     });
-    const stationEndQuery: { data: CykleoStation } = useGetStationQuery({
+    const stationEndQuery = useGetStationQuery({
         stationId: rent.stationEnd
     });
 
