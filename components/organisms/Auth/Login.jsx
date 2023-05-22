@@ -8,8 +8,8 @@ import {useLoginMutation} from "@/redux/services/cykleoApi";
 import {setToken} from "@/redux/features/cykleoTokenSlice";
 
 export default function Login() {
-    const [username, setUsername] = useState(process.env.NEXT_PUBLIC_CYCLEO_USERNAME || null);
-    const [password, setPassword] = useState(process.env.NEXT_PUBLIC_CYCLEO_PASSWORD || null);
+    const [username, setUsername] = useState(process.env.NEXT_PUBLIC_CYKLEO_USERNAME || null);
+    const [password, setPassword] = useState(process.env.NEXT_PUBLIC_CYKLEO_PASSWORD || null);
     const [login, loginResponse] = useLoginMutation();
 
     const dispatch = useAppDispatch();
