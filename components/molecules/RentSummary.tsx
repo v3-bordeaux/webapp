@@ -1,9 +1,8 @@
 import {Rent} from "@/types/cykleo/rent";
 import dayjs from "dayjs";
 import {useGetStationQuery} from "@/redux/services/cykleoApi";
-import {Station as CykleoStation} from "@/types/cykleo/station";
 import {useGetVcubsQuery} from "@/redux/services/tbmWSApi";
-import {Station, VcubResponse} from "@/types/tbm/ws/station";
+import {Station} from "@/types/tbm/ws/station";
 import {useEffect, useState} from "react";
 import RentSummaryMap from "@/components/molecules/Maps/RentSummaryMap";
 
