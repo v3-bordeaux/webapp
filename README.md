@@ -1,13 +1,8 @@
-## Getting Started
+# V3 Bordeaux
 
-First, run the development server:
+Faire une meilleure version de l'application Vcub pour les vélos en libre-service à Bordeaux.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Objectifs
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Nous dressons une liste de fonctionnalités à développer, avec pour chacune la priorité, la faisabilité et l'utilité.
+[Voir la liste](./doc/features.md)
