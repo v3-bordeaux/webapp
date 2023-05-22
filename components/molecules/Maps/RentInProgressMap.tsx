@@ -6,11 +6,7 @@ import {useState} from "react";
 import {Station} from "@/types/tbm/ws/station";
 import {Circle, Fill, Stroke, Style, Text} from "ol/style";
 import {Feature} from "ol";
-import {LineString, Point} from "ol/geom";
-
-// const GEOGRAPHIC_PROJ = "EPSG:4326";
-// const MERCATOR_PROJ = "EPSG:3857";
-// const bordeauxCoord = fromLonLat(transform([-0.5795, 44.7779], GEOGRAPHIC_PROJ, MERCATOR_PROJ));
+import {Point} from "ol/geom";
 
 const circleStyle = new Circle({
     radius: 20,
@@ -22,11 +18,25 @@ const circleStyle = new Circle({
     })
 })
 
-export default function RentSummaryMap({stationStart, stationEnd}: { stationStart: Station, stationEnd: Station }) {
-    const stationStartCoord = fromLonLat([parseFloat(stationStart.longitude), parseFloat(stationStart.latitude)]);
-    const stationEndCoord = fromLonLat([parseFloat(stationEnd.longitude), parseFloat(stationEnd.latitude)]);
+const stationsCircleStyle = new Circle({
+    radius: 5,
+    fill: new Fill({
+        color: '#3f86ed'
+    }),
+    stroke: new Stroke({
+        color: '#000'
+    })
+})
 
-    const [center, setCenter] = useState(stationEndCoord);
+type RentInProgressMapProps = {
+    stationStart: Station,
+    stations: Station[]
+}
+
+export default function RentInProgressMap({stationStart, stations}: RentInProgressMapProps) {
+    const stationStartCoord = fromLonLat([parseFloat(stationStart.longitude), parseFloat(stationStart.latitude)]);
+
+    const [center, setCenter] = useState(stationStartCoord);
     const [zoom, setZoom] = useState(12);
 
     const startFeature = new Feature({
@@ -39,33 +49,25 @@ export default function RentSummaryMap({stationStart, stationEnd}: { stationStar
         image: circleStyle,
     }));
 
-    const endFeature = new Feature({
-        geometry: new Point(stationEndCoord),
-    });
-    endFeature.setStyle(new Style({
-        text: new Text({
-            text: 'Arrivée',
-        }),
-        image: circleStyle,
-    }));
+    const stationsFeatures = stations.map(station => {
+        const stationCoord = fromLonLat([parseFloat(station.longitude), parseFloat(station.latitude)]);
 
+        let stationFeature = new Feature({
+            geometry: new Point(stationCoord),
+        });
+        stationFeature.setStyle(new Style({
+            text: new Text({
+                text: station.name,
+                offsetY: -12
+            }),
+            image: stationsCircleStyle,
+        }));
+        return stationFeature
+    })
 
     const pointFeatures = [
         startFeature,
-        endFeature
     ];
-
-    const lineFeature = new Feature({
-        geometry: new LineString([stationStartCoord, stationEndCoord])
-    });
-
-    lineFeature.setStyle(new Style({
-        stroke: new Stroke({
-            color: '#000',
-            width: 4,
-            lineDash: [10, 10],
-        })
-    }));
 
     return (
         <Map center={center} zoom={zoom}>
@@ -74,7 +76,7 @@ export default function RentSummaryMap({stationStart, stationEnd}: { stationStar
                     source={osm()}
                     zIndex={0}
                 />
-                <VectorLayer source={vector({features: [lineFeature]})}/>
+                <VectorLayer source={vector({features: stationsFeatures})}/>
                 <VectorLayer source={vector({features: pointFeatures})}/>
             </Layers>
         </Map>
