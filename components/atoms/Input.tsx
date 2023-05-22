@@ -11,6 +11,7 @@ export function Input(
 ) {
     return (
         <input
+            type={type}
             className={`rounded-md p-2 border border-slate-200 ${className}`}
             {...props}
         ></input>
