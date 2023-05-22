@@ -11,11 +11,11 @@ export default function RentSummary({rent}: { rent: Rent }) {
     const [stationStart, setStationStart]: [Station, Function] = useState(null);
     const [stationEnd, setStationEnd]: [Station, Function] = useState(null);
 
-    const vcubsQuery: { data: VcubResponse } = useGetVcubsQuery();
-    const stationStartQuery: { data: CykleoStation } = useGetStationQuery({
+    const vcubsQuery = useGetVcubsQuery();
+    const stationStartQuery = useGetStationQuery({
         stationId: rent.stationStart
     });
-    const stationEndQuery: { data: CykleoStation } = useGetStationQuery({
+    const stationEndQuery = useGetStationQuery({
         stationId: rent.stationEnd
     });
 
