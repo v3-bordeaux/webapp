@@ -6,7 +6,7 @@ type CardProps = {
 
 export function Card(
     {
-        className,
+        className = '',
         children,
         ...props
     }: CardProps

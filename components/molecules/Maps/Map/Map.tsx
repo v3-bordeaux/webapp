@@ -1,8 +1,15 @@
-import React, {useEffect, useRef, useState} from "react"
+import React, {HTMLAttributes, ReactNode, useEffect, useRef, useState} from "react"
 import * as ol from "ol";
 import MapContext from "@/components/molecules/Maps/Map/MapContext";
+import {Coordinate} from "ol/coordinate";
 
-export default function Map({children, zoom, center}) {
+type MapProps = {
+    children: ReactNode;
+    zoom: number;
+    center: Coordinate;
+} & HTMLAttributes<HTMLDivElement>;
+
+export default function Map({children, zoom, center, className = '', ...props}: MapProps) {
     const mapRef = useRef();
     const [map, setMap] = useState(null);
 
@@ -34,7 +41,7 @@ export default function Map({children, zoom, center}) {
 
     return (
         <MapContext.Provider value={{map}}>
-            <div ref={mapRef} className="w-full aspect-video rounded-lg overflow-hidden">
+            <div ref={mapRef} className={`w-full aspect-video rounded-lg overflow-hidden ${className}`} {...props}>
                 {children}
             </div>
         </MapContext.Provider>

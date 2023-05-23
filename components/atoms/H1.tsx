@@ -6,7 +6,7 @@ type H1Props = {
 
 export function H1(
     {
-        className,
+        className = '',
         children,
         ...props
     }: H1Props
