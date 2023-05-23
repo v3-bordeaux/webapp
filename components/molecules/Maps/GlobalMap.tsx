@@ -9,18 +9,20 @@ import {Feature} from "ol";
 import {Point} from "ol/geom";
 import {useGetVcubsQuery} from "@/redux/services/tbmWSApi";
 import {Station} from "@/types/tbm/ws/station";
+import {bikesOrPlaces} from "@/app/map/page";
 
-const stationStyle = (station: Station) => {
+const stationPlacesStyle = (station: Station) => {
+    const nbPlaces = station.nbPlaceAvailable;
     let bgColor = '#a3c5fe';
-    if (station.nbBikeAvailable === 0) {
+    if (nbPlaces === 0) {
         bgColor = '#ffa1a1';
-    } else if (station.nbBikeAvailable < 5) {
+    } else if (nbPlaces < 5) {
         bgColor = '#ffd0a1';
     }
     return new Style({
         text: new Text({
             font: 'bold 12px sans-serif',
-            text: station.nbBikeAvailable.toString(),
+            text: nbPlaces.toString(),
         }),
         image: new Circle({
             radius: 15,
@@ -34,11 +36,39 @@ const stationStyle = (station: Station) => {
     })
 }
 
-type GlobalMapProps = {}
+const stationBikesStyle = (station: Station) => {
+    const nbBikes = station.nbBikeAvailable + station.nbElectricBikeAvailable;
+
+    let bgColor = '#a3c5fe';
+    if (nbBikes === 0) {
+        bgColor = '#ffa1a1';
+    } else if (nbBikes < 5) {
+        bgColor = '#ffd0a1';
+    }
+    return new Style({
+        text: new Text({
+            font: 'bold 12px sans-serif',
+            text: nbBikes.toString(),
+        }),
+        image: new Circle({
+            radius: 15,
+            fill: new Fill({
+                color: bgColor
+            }),
+            stroke: new Stroke({
+                color: '#000'
+            })
+        }),
+    })
+}
+
+type GlobalMapProps = {
+    showBikesOrPlaces: bikesOrPlaces
+}
 
 const bordeauxCoord = fromLonLat([-0.5795, 44.830]);
 
-export default function GlobalMap() {
+export default function GlobalMap({showBikesOrPlaces}: GlobalMapProps) {
     const vcubsQuery = useGetVcubsQuery();
 
     const [center, setCenter] = useState(bordeauxCoord);
@@ -54,11 +84,17 @@ export default function GlobalMap() {
                 let stationFeature = new Feature({
                     geometry: new Point(stationCoord),
                 });
-                stationFeature.setStyle(stationStyle(station));
+
+                if (showBikesOrPlaces === 'bikes') {
+                    stationFeature.setStyle(stationBikesStyle(station));
+                } else {
+                    stationFeature.setStyle(stationPlacesStyle(station));
+                }
+
                 return stationFeature
             }))
         }
-    }, [vcubsQuery])
+    }, [vcubsQuery, showBikesOrPlaces])
 
     return (
         <Map center={center} zoom={zoom} className="!aspect-auto"
