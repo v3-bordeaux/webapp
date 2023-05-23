@@ -1,3 +1,4 @@
+'use client';
 import Map from "@/components/molecules/Maps/Map/Map";
 import {Layers, TileLayer, VectorLayer} from "@/components/molecules/Maps/Layers";
 import {osm, vector} from "@/components/molecules/Maps/Source";
@@ -8,16 +9,6 @@ import {Feature} from "ol";
 import {Point} from "ol/geom";
 import {useGetVcubsQuery} from "@/redux/services/tbmWSApi";
 import {Station} from "@/types/tbm/ws/station";
-
-const circleStyle = new Circle({
-    radius: 20,
-    fill: new Fill({
-        color: '#aecaf1'
-    }),
-    stroke: new Stroke({
-        color: '#000'
-    })
-})
 
 const stationStyle = (station: Station) => {
     let bgColor = '#a3c5fe';
@@ -45,8 +36,6 @@ const stationStyle = (station: Station) => {
 
 type GlobalMapProps = {}
 
-const GEOGRAPHIC_PROJ = "EPSG:4326";
-const MERCATOR_PROJ = "EPSG:3857";
 const bordeauxCoord = fromLonLat([-0.5795, 44.830]);
 
 export default function GlobalMap() {
@@ -72,7 +61,8 @@ export default function GlobalMap() {
     }, [vcubsQuery])
 
     return (
-        <Map center={center} zoom={zoom}>
+        <Map center={center} zoom={zoom} className="!aspect-auto"
+             style={{height: window.innerHeight, width: window.innerWidth}}>
             <Layers>
                 <TileLayer
                     source={osm()}
