@@ -10,6 +10,7 @@ import {Point} from "ol/geom";
 import {useGetVcubsQuery} from "@/redux/services/tbmWSApi";
 import {Station} from "@/types/tbm/ws/station";
 import {bikesOrPlaces} from "@/app/map/page";
+import PositionLayer from "@/components/molecules/Maps/Layers/PositionLayer";
 
 const stationPlacesStyle = (station: Station) => {
     const nbPlaces = station.nbPlaceAvailable;
@@ -105,6 +106,7 @@ export default function GlobalMap({showBikesOrPlaces}: GlobalMapProps) {
                     zIndex={0}
                 />
                 <VectorLayer source={vector({features: stationsFeatures})}/>
+                <PositionLayer/>
             </Layers>
         </Map>
     );
