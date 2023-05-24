@@ -1,0 +1,11 @@
+node_modules/
+.next/
+build/
+dist/
+
+packages/*/node_modules/
+packages/*/.next/
+packages/*/build/
+packages/*/dist/
+packages/dots-types/**
+packages/dots-wp-types/**
