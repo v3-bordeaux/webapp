@@ -4,7 +4,7 @@ type InputProps = {} & InputHTMLAttributes<HTMLInputElement>;
 
 export function Input(
     {
-        className,
+        className = '',
         type = 'text',
         ...props
     }: InputProps

@@ -6,7 +6,7 @@ type ButtonProps = {
 
 export function Button(
     {
-        className,
+        className = '',
         children,
         type = 'button',
         ...props
