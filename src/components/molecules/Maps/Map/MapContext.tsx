@@ -5,6 +5,6 @@ export type MapContextContent = {
   map: Map | null
 }
 
-const MapContext = new React.createContext<MapContextContent>(null)
+const MapContext = React.createContext<MapContextContent>(null)
 
 export default MapContext
