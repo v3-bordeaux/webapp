@@ -1,9 +1,9 @@
 import {useContext, useEffect} from "react";
-import MapContext from "../Map/MapContext";
+import MapContext, {MapContextContent} from "@/components/molecules/Maps/Map/MapContext";
 import OLTileLayer from "ol/layer/Tile";
 
 export default function TileLayer({source, zIndex = 0}) {
-    const {map} = useContext(MapContext);
+    const {map} = useContext<MapContextContent>(MapContext);
     useEffect(() => {
         if (!map) return;
 

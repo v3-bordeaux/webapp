@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from "react";
-import MapContext from "../Map/MapContext";
+import MapContext, {MapContextContent} from "@/components/molecules/Maps/Map/MapContext";
 import VectorLayer from "@/components/molecules/Maps/Layers/VectorLayer";
 import {Feature, Geolocation} from "ol";
 import {vector} from "@/components/molecules/Maps/Source";
@@ -8,7 +8,7 @@ import {Fill, Stroke, Style} from "ol/style";
 import CircleStyle from "ol/style/Circle";
 
 export default function PositionLayer({zIndex = 0}) {
-    const {map} = useContext<MapContext>(MapContext);
+    const {map} = useContext<MapContextContent>(MapContext);
 
     const [features, setFeatures] = useState<Array<Feature>>([]);
 

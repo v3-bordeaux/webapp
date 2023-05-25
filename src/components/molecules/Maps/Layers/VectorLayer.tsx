@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from 'react'
 import OLVectorLayer from 'ol/layer/Vector'
 
-import MapContext from '../Map/MapContext'
+import MapContext, {MapContextContent} from "@/components/molecules/Maps/Map/MapContext";
 
 export default function VectorLayer({ source, style = null, zIndex = 0 }) {
-  const { map } = useContext(MapContext)
+  const { map } = useContext<MapContextContent>(MapContext)
   const [vectorLayer, setVectorLayer] = useState(null)
 
   useEffect(() => {
