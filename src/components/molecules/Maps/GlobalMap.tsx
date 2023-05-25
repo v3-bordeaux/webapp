@@ -68,8 +68,13 @@ const stationBikesStyle = (station: Station) => {
   })
 }
 
-type GlobalMapProps = {
+interface GlobalMapProps {
   showBikesOrPlaces: bikesOrPlaces
+}
+
+interface MapSize {
+  height: number
+  width: number
 }
 
 const bordeauxCoord = fromLonLat([-0.5795, 44.83])
@@ -80,6 +85,22 @@ export default function GlobalMap({ showBikesOrPlaces }: GlobalMapProps) {
   const [center, setCenter] = useState(bordeauxCoord)
   const [zoom, setZoom] = useState(12)
   const [stationsFeatures, setStationsFeatures] = useState(null)
+  const [mapSize, setMapSize] = useState<MapSize>({height: 0, width: 0})
+
+  function updateMapSize(window) {
+    setMapSize({
+      height: window.innerHeight,
+      width: window.innerWidth
+    })
+  }
+
+  useEffect(()=>{
+    updateMapSize(window)
+
+    window.addEventListener('resize', ()=>{
+      updateMapSize(window)
+    })
+  }, []);
 
   useEffect(() => {
     if (vcubsQuery.data) {
@@ -112,7 +133,7 @@ export default function GlobalMap({ showBikesOrPlaces }: GlobalMapProps) {
       center={center}
       zoom={zoom}
       className="!aspect-auto"
-      style={{ height: window.innerHeight, width: window.innerWidth }}
+      style={{...mapSize}}
     >
       <Layers>
         <TileLayer source={osm()} zIndex={0} />
