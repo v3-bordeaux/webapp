@@ -11,9 +11,11 @@ import { osm, vector } from '@/components/molecules/Maps/Source'
 import PositionLayer from '@/components/molecules/Maps/Layers/PositionLayer'
 import { Layers, TileLayer, VectorLayer } from '@/components/molecules/Maps/Layers'
 
-//TODO(Louis): Never import things from the pages here, in order to avoid circular imports
-import type { bikesOrPlaces } from '@/app/map/page'
 import type { Station } from '@/_types/tbm/ws/station'
+
+//TODO(Louis): Never import things from the pages here, in order to avoid circular imports
+// bien vu : j'ai inversé l'import, la page import le component et les types associés
+export type bikesOrPlaces = 'bikes' | 'places'
 
 const stationPlacesStyle = (station: Station) => {
   const nbPlaces = station.nbPlaceAvailable
