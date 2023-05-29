@@ -17,16 +17,12 @@ export default function Home() {
   return (
     <main className="px-4">
       <H1 className="!my-10 text-center">V3 Bordeaux</H1>
-      {token ? (
-        <div className="flex flex-col gap-4">
-          <Informations />
-          <RentInProgress />
-          <RentCompleted />
-          <Logout />
-        </div>
-      ) : (
-        <Login />
-      )}
+      <div className="flex flex-col gap-4">
+        <Informations />
+        <RentInProgress />
+        <RentCompleted />
+        <Logout />
+      </div>
     </main>
   )
 }
