@@ -1,20 +1,20 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet'
+import { latLng } from 'leaflet';
+import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
+import "leaflet-defaulticon-compatibility";
+
 import { Feature } from 'ol'
 import { Point } from 'ol/geom'
 import { fromLonLat } from 'ol/proj'
 import { Circle, Fill, Stroke, Style, Text } from 'ol/style'
 import { useGetVcubsQuery } from '@/redux/services/tbmWSApi'
 
-import Map from '@/components/molecules/Maps/Map/Map'
-import { osm, vector } from '@/components/molecules/Maps/Source'
-import PositionLayer from '@/components/molecules/Maps/Layers/PositionLayer'
-import { Layers, TileLayer, VectorLayer } from '@/components/molecules/Maps/Layers'
-
+import { type LatLngExpression } from 'leaflet';
 import type { Station } from '@/_types/tbm/ws/station'
 
-//TODO(Louis): Never import things from the pages here, in order to avoid circular imports
-// bien vu : j'ai inversé l'import, la page import le component et les types associés
+
 export type bikesOrPlaces = 'bikes' | 'places'
 
 const stationPlacesStyle = (station: Station) => {
@@ -77,12 +77,12 @@ interface MapSize {
   width: number
 }
 
-const bordeauxCoord = fromLonLat([-0.5795, 44.83])
+const bordeauxCoord = latLng(44.83, -0.5795);
 
 export default function GlobalMap({ showBikesOrPlaces }: GlobalMapProps) {
   const vcubsQuery = useGetVcubsQuery()
 
-  const [center, setCenter] = useState(bordeauxCoord)
+  const [center, setCenter] = useState<LatLngExpression>(bordeauxCoord)
   const [zoom, setZoom] = useState(12)
   const [stationsFeatures, setStationsFeatures] = useState(null)
   const [mapSize, setMapSize] = useState<MapSize>({height: 0, width: 0})
@@ -95,6 +95,10 @@ export default function GlobalMap({ showBikesOrPlaces }: GlobalMapProps) {
   }
 
   useEffect(()=>{
+    if(!window) {
+      return;
+    }
+
     updateMapSize(window)
 
     window.addEventListener('resize', ()=>{
@@ -129,17 +133,16 @@ export default function GlobalMap({ showBikesOrPlaces }: GlobalMapProps) {
   }, [vcubsQuery, showBikesOrPlaces])
 
   return (
-    <Map
-      center={center}
-      zoom={zoom}
-      className="!aspect-auto"
-      style={{...mapSize}}
-    >
-      <Layers>
-        <TileLayer source={osm()} zIndex={0} />
-        <VectorLayer source={vector({ features: stationsFeatures })} />
-        <PositionLayer />
-      </Layers>
-    </Map>
+    <MapContainer center={center} zoom={zoom} scrollWheelZoom={false}>
+    <TileLayer
+      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    />
+    <Marker position={center}>
+      <Popup>
+        A pretty CSS3 popup. <br /> Easily customizable.
+      </Popup>
+    </Marker>
+  </MapContainer>
   )
 }
