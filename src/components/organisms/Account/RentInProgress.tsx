@@ -36,19 +36,17 @@ export function RentInProgress() {
   //     totalElements: 1,
   // };
   return (
-    <Card>
+    <div className="relative rounded-xl text-text-1 bg-secondary-1 px-5 py-4 border-2 border-text-1">
       {isFetching || isLoading ? (
         <Spinner />
-      ) : (
+      ) : data.totalElements === 0 ? (
         <>
-          <H2>Location en cours</H2>
-          {data.totalElements === 0 ? (
-            <span>Pas de location en cours</span>
-          ) : (
-            <RentInProgressCard rent={data.content[0]} />
-          )}
+          <p>Location en cours</p>
+          <span>Pas de location en cours</span>
         </>
+      ) : (
+        <RentInProgressCard rent={data.content[0]} />
       )}
-    </Card>
+    </div>
   )
 }

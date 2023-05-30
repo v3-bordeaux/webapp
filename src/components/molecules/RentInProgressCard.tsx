@@ -3,10 +3,13 @@ import dayjs from 'dayjs'
 
 import { useGetVcubsQuery } from '@/redux/services/tbmWSApi'
 import { useGetStationQuery } from '@/redux/services/cykleoApi'
-import RentInProgressMap from '@/components/molecules/Maps/RentInProgressMap'
+import { Bicycle } from 'akar-icons'
 
 import type { Rent } from '@/_types/cykleo/rent'
 import type { Station } from '@/_types/tbm/ws/station'
+import { H2 } from '../atoms'
+
+const freeTimeInMinutes = 30;
 
 export default function RentInProgressCard({ rent }: { rent: Rent }) {
   const [stationStart, setStationStart]: [Station, Function] = useState(null)
@@ -33,18 +36,48 @@ export default function RentInProgressCard({ rent }: { rent: Rent }) {
 
   const beginDateParsed = dayjs(rent.beginDate)
   const nowDateParsed = dayjs()
-  const duration = nowDateParsed.diff(beginDateParsed, 'm')
+  const durationInMinutes = nowDateParsed.diff(beginDateParsed, 'm')
+  const timeLeftInMinutes = freeTimeInMinutes - durationInMinutes
+  const isFreeTimeSpent = timeLeftInMinutes <= 0;
+  const paidTime = -timeLeftInMinutes;
+
   return (
-    <article className="bg-slate-200 rounded-xl p-3 flex flex-col">
-      {stationStart && (
-        <RentInProgressMap stationStart={stationStart} stations={vcubsQuery.data.lists} />
-      )}
-      <span>Durée: {duration} minute(s)</span>
-      <span>
-        Du {beginDateParsed.format('DD/MM/YYYY à HH[h]mm')} au{' '}
-        {nowDateParsed.format('DD/MM/YYYY à HH[h]mm')}
-      </span>
-      <span>Parti de {stationStart?.name}</span>
-    </article>
+    <>
+      <article className="flex flex-col">
+        <span>Mon vélo</span>
+        <div className="flex space-between items-end gap-4">
+          <Bicycle strokeWidth="2" className="w-14 h-14" />
+          <div className="flex flex-col">
+            {
+              isFreeTimeSpent ? (
+              <>
+                <hgroup className="flex items-end gap-1">
+                  <H2 className="font-bold">{paidTime}</H2>
+                  <span>min</span>
+                </hgroup>
+                <span>Temps payant</span>
+              </>
+              ) : (
+              <>
+                <span>{timeLeftInMinutes} minute(s)</span>
+                <span>Temps gratuit</span>
+              </>
+              )
+            }
+          </div>
+        </div>
+        <a href="/rent/in-progress" className="after:absolute after:inset-0">
+          <span className="hidden">Voir le détail de la location en cours</span>
+        </a>
+      </article>
+      <article className="hidden absolute bottom-0 left-0 right-0 w-full h-44">
+        <span>Durée: {durationInMinutes} minute(s)</span>
+        <span>
+          Du {beginDateParsed.format('DD/MM/YYYY à HH[h]mm')} au{' '}
+          {nowDateParsed.format('DD/MM/YYYY à HH[h]mm')}
+        </span>
+        <span>Parti de {stationStart?.name}</span>
+      </article>
+    </>
   )
 }
