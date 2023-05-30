@@ -8,7 +8,7 @@ export const metadata = {
 }
 
 const lexendDeca = Lexend_Deca({ 
-  weight: '400',
+  weight: ['400', '600'],
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-lexend-deca',
