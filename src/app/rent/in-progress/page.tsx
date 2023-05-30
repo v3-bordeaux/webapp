@@ -1,75 +1,26 @@
 'use client'
 import { useEffect, useState } from 'react'
-import dayjs from 'dayjs'
 
 import { H2, Spinner } from '@/components/atoms'
-import { H1 } from '@/components/atoms/H1'
 import { useGetRentsInProgressQuery } from '@/redux/services/cykleoApi'
 import { useGetVcubsQuery } from '@/redux/services/tbmWSApi'
 import { useGetStationQuery } from '@/redux/services/cykleoApi'
 
-import type { Rent } from '@/_types/cykleo/rent'
 import type { Station } from '@/_types/tbm/ws/station'
 import Link from 'next/link'
-import { Alarm, ArrowBack, ChevronLeft, FaceVeryHappy, Heart, Money, TriangleAlert } from 'akar-icons'
+import { Alarm, ChevronLeft, Heart, Money, TriangleAlert } from 'akar-icons'
 import RentInProgressMap from '@/components/molecules/Maps/RentInProgressMap'
 
 export default function RentInProgress() {
   const rentsQuery = useGetRentsInProgressQuery(null)
 
-  rentsQuery.data = {
-    content: [
-      {
-        beginDate: '2023-05-20T12:53:11Z',
-        endDate: '2023-05-20T13:08:50Z',
-        duration: 939,
-        status: 'NO_TIME_EXCEEDANCE',
-        calculatedDistance: 3341,
-        straightLineDistance: 2461,
-        organization: 7,
-        stationStart: 272,
-        stationEnd: 400,
-        subscription: 2877129,
-        bike: 13283,
-        id: 45684567,
-        creationDate: '2023-05-20T13:08:53Z',
-        referenceDate: '2023-05-20T12:53:11Z',
-        exportDate: '2023-05-21T01:05:12Z',
-        type: 'VLS_STANDARD',
-        amount: 0,
-        previousBalance: 800,
-        newBalance: 800,
-        paid: true,
-        customer: 248554,
-        cardNumber: '2032087802'
-      }
-    ],
-    totalPages: 1,
-    totalElements: 1,
-    last: true,
-    number: 0,
-    sort: [
-        {
-        direction: 'desc',
-        property: 'id',
-        ignoreCase: true,
-        nullHandling: 'true',
-        descending: true,
-        ascending: true
-      }
-    ],
-    size: 1,
-    numberOfElements: 1,
-    first: true,
-  }
-
   const rent = rentsQuery.data?.content[0] ?? null;
 
-  const [stationStart, setStationStart]: [Station, Function] = useState(null)
+  const [stationStart, setStationStart] = useState<Station>(null)
 
   const vcubsQuery = useGetVcubsQuery()
   const stationStartQuery = useGetStationQuery({
-    stationId: rent.stationStart
+    stationId: rent?.stationStart
   })
 
   useEffect(() => {
