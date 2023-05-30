@@ -12,6 +12,7 @@ import type { Rent } from '@/_types/cykleo/rent'
 import type { Station } from '@/_types/tbm/ws/station'
 import Link from 'next/link'
 import { Alarm, ArrowBack, ChevronLeft, FaceVeryHappy, Heart, Money, TriangleAlert } from 'akar-icons'
+import RentInProgressMap from '@/components/molecules/Maps/RentInProgressMap'
 
 export default function RentInProgress() {
   const rentsQuery = useGetRentsInProgressQuery(null)
@@ -121,6 +122,12 @@ export default function RentInProgress() {
 
           <section className="col-span-4 flex flex-col gap-2">
             <H2>Mon trajet</H2>
+
+            { stationStart && 
+              <article className="rounded-2xl border-2 border-text-1 overflow-hidden">
+                <RentInProgressMap stationStart={stationStart}/>
+              </article>
+            }
 
             <div className='grid grid-cols-4 gap-x-4'>
               <article className="col-span-3 flex items-center gap-2 text-sm md:text-md rounded-2xl border-2 border-text-1 bg-primary-1 px-4 py-2">
