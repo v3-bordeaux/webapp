@@ -4,6 +4,10 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    container: {
+      center: true,
+      padding: '1rem',
+    },
     extend: {
       fontFamily: {
         display: ['var(--font-righteous)'],
