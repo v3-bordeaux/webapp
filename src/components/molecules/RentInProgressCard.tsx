@@ -8,6 +8,7 @@ import { Bicycle } from 'akar-icons'
 import type { Rent } from '@/_types/cykleo/rent'
 import type { Station } from '@/_types/tbm/ws/station'
 import { H2 } from '../atoms'
+import Link from 'next/link'
 
 const freeTimeInMinutes = 30;
 
@@ -66,9 +67,9 @@ export default function RentInProgressCard({ rent }: { rent: Rent }) {
             }
           </div>
         </div>
-        <a href="/rent/in-progress" className="after:absolute after:inset-0">
+        <Link href="/rent/in-progress" className="after:absolute after:inset-0">
           <span className="hidden">Voir le détail de la location en cours</span>
-        </a>
+        </Link>
       </article>
       <article className="hidden absolute bottom-0 left-0 right-0 w-full h-44">
         <span>Durée: {durationInMinutes} minute(s)</span>
