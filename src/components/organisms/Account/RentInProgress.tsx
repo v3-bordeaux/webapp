@@ -41,7 +41,6 @@ export function RentInProgress() {
         <Spinner />
       ) : data.totalElements === 0 ? (
         <>
-          <p>Location en cours</p>
           <span>Pas de location en cours</span>
         </>
       ) : (
