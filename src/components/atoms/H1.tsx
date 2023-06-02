@@ -12,7 +12,7 @@ export function H1(
     }: H1Props
 ) {
     return (
-        <h1 className={`text-4xl mb-4 ${className}`} {...props}>
+        <h1 className={`text-xl md:text-3xl ${className}`} {...props}>
             {children}
         </h1>
     );

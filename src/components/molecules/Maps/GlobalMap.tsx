@@ -84,8 +84,9 @@ export default function GlobalMap({ showBikesOrPlaces }: GlobalMapProps) {
 
   const [center, setCenter] = useState(bordeauxCoord)
   const [zoom, setZoom] = useState(12)
-  const [stationsFeatures, setStationsFeatures] = useState(null)
   const [mapSize, setMapSize] = useState<MapSize>({height: 0, width: 0})
+
+  let stationsFeatures = [];
 
   function updateMapSize(window) {
     setMapSize({
@@ -102,31 +103,28 @@ export default function GlobalMap({ showBikesOrPlaces }: GlobalMapProps) {
     })
   }, []);
 
-  useEffect(() => {
-    if (vcubsQuery.data) {
-      const stationsList = vcubsQuery.data.lists
-      setStationsFeatures(
-        stationsList.map((station: Station) => {
-          const stationCoord = fromLonLat([
-            parseFloat(station.longitude),
-            parseFloat(station.latitude)
-          ])
 
-          let stationFeature = new Feature({
-            geometry: new Point(stationCoord)
-          })
+  if (vcubsQuery.data) {
+    const stationsList = vcubsQuery.data.lists
+    stationsFeatures = stationsList.map((station: Station) => {
+      const stationCoord = fromLonLat([
+        parseFloat(station.longitude),
+        parseFloat(station.latitude)
+      ])
 
-          if (showBikesOrPlaces === 'bikes') {
-            stationFeature.setStyle(stationBikesStyle(station))
-          } else {
-            stationFeature.setStyle(stationPlacesStyle(station))
-          }
+      let stationFeature = new Feature({
+        geometry: new Point(stationCoord)
+      })
 
-          return stationFeature
-        })
-      )
-    }
-  }, [vcubsQuery, showBikesOrPlaces])
+      if (showBikesOrPlaces === 'bikes') {
+        stationFeature.setStyle(stationBikesStyle(station))
+      } else {
+        stationFeature.setStyle(stationPlacesStyle(station))
+      }
+
+      return stationFeature
+    })
+  }
 
   return (
     <Map

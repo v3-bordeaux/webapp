@@ -4,6 +4,7 @@ import { RootState } from '@/redux/store'
 import { useAppSelector } from '@/redux/hooks'
 
 import GlobalMap, {bikesOrPlaces} from '@/components/molecules/Maps/GlobalMap'
+import { RentInProgress } from '@/components/organisms/Account/RentInProgress'
 
 
 export default function Map() {
@@ -27,6 +28,10 @@ export default function Map() {
         >
           Places
         </button>
+      </section>
+
+      <section className="absolute bottom-0 left-0 p-4">
+        <RentInProgress/>
       </section>
     </main>
   )
