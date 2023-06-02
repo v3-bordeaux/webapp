@@ -13,7 +13,7 @@ module.exports = {
         display: ['var(--font-righteous)'],
         sans: ['var(--font-lexend-deca)'],
       },
-      dropShadow: {
+      boxShadow: {
         'brut': '2px 2px 0 #1A1A1A'
       },
       backgroundImage: {
