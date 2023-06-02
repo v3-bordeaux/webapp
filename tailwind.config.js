@@ -43,6 +43,7 @@ module.exports = {
           1: '#1A1A1A',
           2: '#313131',
           3: '#595959',
+          4: '#B3B3B3',
         },
         'backdrop': {
           1: '#ECECEC',
