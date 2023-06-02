@@ -13,7 +13,7 @@ export default function Login() {
 
   const dispatch = useAppDispatch()
 
-  const wrongAuth = loginResponse.isError && loginResponse.error.data.error === 'Unauthorized'
+  const wrongAuth = loginResponse.isError
 
   async function sendLogin() {
     login({
@@ -26,7 +26,7 @@ export default function Login() {
     if (loginResponse.status === 'fulfilled') {
       dispatch(setToken(loginResponse.data.access_token))
     }
-  }, [loginResponse])
+  }, [loginResponse, dispatch])
 
   return (
     <Card>
