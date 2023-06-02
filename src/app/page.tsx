@@ -27,17 +27,15 @@ export default function Map() {
           </button>
 
           <button 
-            className="pointer-events-auto flex flex-col gap-2 overflow-hidden rounded-full border-2 border-text-1 bg-background-3 shadow-brut active:shadow-none active:translate-x-1 active:translate-y-1"
+            className="pointer-events-auto relative flex flex-col overflow-hidden rounded-full border-2 border-text-1 bg-background-3 shadow-brut active:shadow-none active:translate-x-1 active:translate-y-1"
             onClick={toggleShowBikesOrPlaces}
           >
-            <div
-              className={'rounded-full p-3' + (showBikesOrPlaces === 'bikes' ? ' bg-cta-1 ring-2 ring-text-1' : '')}
-              >
+            <div className={"absolute left-0 top-0 rounded-full w-full aspect-square bg-cta-1 ring-2 ring-text-1 transition-transform delay-300 " + (showBikesOrPlaces === 'bikes' ? '':'translate-y-full')}></div>
+
+            <div className="p-3 z-10">
               <Bicycle className="h-8 w-8"/>
             </div>
-            <div
-              className={'rounded-full p-3' + (showBikesOrPlaces === 'places' ? ' bg-cta-1 ring-2 ring-text-1' : '')}
-              >
+            <div className="p-3 z-10">
               <ProductHuntFill className="h-8 w-8"/>
             </div>
           </button>
