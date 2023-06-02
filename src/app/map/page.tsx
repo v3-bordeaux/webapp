@@ -3,8 +3,7 @@ import React, { useState } from 'react'
 import { RootState } from '@/redux/store'
 import { useAppSelector } from '@/redux/hooks'
 
-import GlobalMap, {bikesOrPlaces} from '@/components/molecules/Maps/GlobalMap'
-
+import GlobalMap, { bikesOrPlaces } from '@/components/molecules/Maps/GlobalMap'
 
 export default function Map() {
   const token = useAppSelector((state: RootState) => state.cykleoTokenReducer.value)

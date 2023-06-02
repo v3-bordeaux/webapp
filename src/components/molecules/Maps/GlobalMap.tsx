@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { Feature } from 'ol'
+import Select from 'ol/interaction/Select.js'
 import { Point } from 'ol/geom'
 import { fromLonLat } from 'ol/proj'
 import { Circle, Fill, Stroke, Style, Text } from 'ol/style'
@@ -80,12 +81,12 @@ interface MapSize {
 const bordeauxCoord = fromLonLat([-0.5795, 44.83])
 
 export default function GlobalMap({ showBikesOrPlaces }: GlobalMapProps) {
-  const vcubsQuery = useGetVcubsQuery()
+  const { data } = useGetVcubsQuery()
 
   const [center, setCenter] = useState(bordeauxCoord)
   const [zoom, setZoom] = useState(12)
-  const [stationsFeatures, setStationsFeatures] = useState(null)
-  const [mapSize, setMapSize] = useState<MapSize>({height: 0, width: 0})
+
+  const [mapSize, setMapSize] = useState<MapSize>({ height: 0, width: 0 })
 
   function updateMapSize(window) {
     setMapSize({
@@ -94,47 +95,37 @@ export default function GlobalMap({ showBikesOrPlaces }: GlobalMapProps) {
     })
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     updateMapSize(window)
 
-    window.addEventListener('resize', ()=>{
+    window.addEventListener('resize', () => {
       updateMapSize(window)
     })
-  }, []);
+  }, [])
 
-  useEffect(() => {
-    if (vcubsQuery.data) {
-      const stationsList = vcubsQuery.data.lists
-      setStationsFeatures(
-        stationsList.map((station: Station) => {
-          const stationCoord = fromLonLat([
-            parseFloat(station.longitude),
-            parseFloat(station.latitude)
-          ])
+  let stationsFeatures
+  if (data) {
+    const stationsList = data.lists
+    stationsFeatures = stationsList.map((station: Station) => {
+      const stationCoord = fromLonLat([parseFloat(station.longitude), parseFloat(station.latitude)])
 
-          let stationFeature = new Feature({
-            geometry: new Point(stationCoord)
-          })
+      let stationFeature = new Feature({
+        geometry: new Point(stationCoord),
+        name: station.id
+      })
 
-          if (showBikesOrPlaces === 'bikes') {
-            stationFeature.setStyle(stationBikesStyle(station))
-          } else {
-            stationFeature.setStyle(stationPlacesStyle(station))
-          }
+      if (showBikesOrPlaces === 'bikes') {
+        stationFeature.setStyle(stationBikesStyle(station))
+      } else {
+        stationFeature.setStyle(stationPlacesStyle(station))
+      }
 
-          return stationFeature
-        })
-      )
-    }
-  }, [vcubsQuery, showBikesOrPlaces])
+      return stationFeature
+    })
+  }
 
   return (
-    <Map
-      center={center}
-      zoom={zoom}
-      className="!aspect-auto"
-      style={{...mapSize}}
-    >
+    <Map center={center} zoom={zoom} className="!aspect-auto" style={{ ...mapSize }}>
       <Layers>
         <TileLayer source={osm()} zIndex={0} />
         <VectorLayer source={vector({ features: stationsFeatures })} />
