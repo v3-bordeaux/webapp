@@ -4,8 +4,9 @@ import { useAppDispatch } from '@/redux/hooks'
 import { setToken } from '@/redux/features/cykleoTokenSlice'
 import { useLoginMutation } from '@/redux/services/cykleoApi'
 
-import { Input, Button, Card } from '@/components/atoms'
+import { Input, Button, Card, H1 } from '@/components/atoms'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 export default function Login() {
   const { push } = useRouter();
@@ -32,14 +33,21 @@ export default function Login() {
   }, [loginResponse, dispatch, push])
 
   return (
-    <Card>
-      <form className="flex flex-col">
+    <main className="container flex flex-col justify-between h-screen py-8">
+      <hgroup className="text-center">
+        <H1>Bovélo</H1>
+        <p>L&apos;appli Vcub en mieux</p>
+      </hgroup>
+
+      <Image src="/logo.svg" alt=" " width={400} height={400} className='w-1/2 mx-auto'/>
+
+      <form className="flex flex-col py-4">
         {wrongAuth && (
           <p className="mb-6 rounded-md py-3 px-4 bg-red-200 text-red-900">
             Email ou mot de passe incorrect
           </p>
         )}
-        <label htmlFor="email">E-mail</label>
+        <label htmlFor="email">E-mail de votre compte V3</label>
         <Input
           className="mt-2"
           autoFocus
@@ -68,6 +76,7 @@ export default function Login() {
           Se connecter
         </Button>
       </form>
-    </Card>
+    </main>
+
   )
 }

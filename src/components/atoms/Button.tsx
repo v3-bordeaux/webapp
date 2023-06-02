@@ -15,7 +15,7 @@ export function Button(
     return (
         <button
             type={type}
-            className={`rounded-md bg-slate-600 text-white p-2 ${className}`}
+            className={`rounded-full bg-cta-1 text-text-1 border-2 border-current drop-shadow-brut active:drop-shadow-none py-2 px-4 ${className}`}
             {...props}
         >
             {children}

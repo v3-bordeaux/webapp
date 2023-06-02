@@ -12,7 +12,7 @@ export function Input(
     return (
         <input
             type={type}
-            className={`rounded-md p-2 border border-slate-200 ${className}`}
+            className={`rounded-full bg-background-1 text-text-1 border-2 border-text-4 py-2 px-4 ${className}`}
             {...props}
         ></input>
     )
