@@ -36,7 +36,7 @@ export default function Login() {
     <main className="container flex flex-col justify-between h-screen py-8">
       <hgroup className="text-center">
         <H1>Bovélo</H1>
-        <p>L'appli Vcub en mieux</p>
+        <p>L&apos;appli Vcub en mieux</p>
       </hgroup>
 
       <Image src="/logo.svg" alt=" " width={400} height={400} className='w-1/2 mx-auto'/>
