@@ -24,7 +24,7 @@ const righteous = Righteous({
 export default function RootLayout({ children }) {
   return (
     <html lang="fr">
-      <body className={`${lexendDeca.variable} ${righteous.variable} font-sans bg-background-3`}>
+      <body className={`${lexendDeca.variable} ${righteous.variable} font-sans bg-background-3 text-text-1`}>
         <Providers>{children}</Providers>
       </body>
     </html>
