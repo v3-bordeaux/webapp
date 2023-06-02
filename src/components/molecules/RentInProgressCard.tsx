@@ -67,7 +67,7 @@ export default function RentInProgressCard({ rent }: { rent: Rent }) {
             }
           </div>
         </div>
-        <Link href="/rent/in-progress" className="after:absolute after:inset-0">
+        <Link href="/rents/in-progress" className="after:absolute after:inset-0">
           <span className="hidden">Voir le détail de la location en cours</span>
         </Link>
       </article>

@@ -1,28 +1,34 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 
-import { RootState } from '@/redux/store'
-import { useAppSelector } from '@/redux/hooks'
-
-import { H1 } from '@/components/atoms/H1'
-import Login from '@/components/organisms/Auth/Login'
-import Logout from '@/components/organisms/Auth/Logout'
-import { Informations } from '@/components/organisms/Account/Informations'
+import GlobalMap, {bikesOrPlaces} from '@/components/molecules/Maps/GlobalMap'
 import { RentInProgress } from '@/components/organisms/Account/RentInProgress'
-import { RentCompleted } from '@/components/organisms/Account/RentCompleted'
 
-export default function Home() {
-  const token = useAppSelector((state: RootState) => state.cykleoTokenReducer.value)
+export default function Map() {
+  const [showBikesOrPlaces, setShowBikesOrPlaces] = useState<bikesOrPlaces>('bikes')
 
   return (
-    <main className="px-4">
-      <H1 className="!my-10 text-center">V3 Bordeaux</H1>
-      <div className="flex flex-col gap-4">
-        <Informations />
-        <RentInProgress />
-        <RentCompleted />
-        <Logout />
-      </div>
+    <main className="relative w-full">
+      <GlobalMap showBikesOrPlaces={showBikesOrPlaces} />
+
+      <section className="bg-slate-200 absolute bottom-0 right-0 p-4">
+        <button
+          className={showBikesOrPlaces === 'bikes' ? 'bg-slate-400' : ''}
+          onClick={() => setShowBikesOrPlaces('bikes')}
+        >
+          Vélos
+        </button>
+        <button
+          className={showBikesOrPlaces === 'places' ? 'bg-slate-400' : ''}
+          onClick={() => setShowBikesOrPlaces('places')}
+        >
+          Places
+        </button>
+      </section>
+
+      <section className="absolute bottom-0 left-0 p-4">
+        <RentInProgress/>
+      </section>
     </main>
   )
 }
