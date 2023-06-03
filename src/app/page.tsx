@@ -3,8 +3,7 @@ import React, { useState } from 'react'
 
 import GlobalMap, { bikesOrPlaces } from '@/components/molecules/Maps/GlobalMap'
 import { RentInProgress } from '@/components/organisms/Account/RentInProgress'
-import { ProductHuntFill } from 'akar-icons'
-import { Bicycle } from '@v3-bordeaux/akar-icons'
+import { Bicycle, Parking } from '@v3-bordeaux/akar-icons'
 import { CenterMapOnPosition } from '@/components/molecules/Maps/Controls/CenterMapOnPosition'
 import { StationDetails } from '@/components/molecules/StationDetails'
 
@@ -61,7 +60,7 @@ export default function Map() {
                 <Bicycle className="h-8 w-8" />
               </div>
               <div className="p-3 z-10">
-                <ProductHuntFill className="h-8 w-8" />
+                <Parking className="h-8 w-8" />
               </div>
             </button>
           </div>
