@@ -3,14 +3,14 @@ import dayjs from 'dayjs'
 
 import { useGetVcubsQuery } from '@/redux/services/tbmWSApi'
 import { useGetStationQuery } from '@/redux/services/cykleoApi'
-import { Bicycle } from 'akar-icons'
+import { Bicycle } from '@v3-bordeaux/akar-icons'
 
 import type { Rent } from '@/_types/cykleo/rent'
 import type { Station } from '@/_types/tbm/ws/station'
 import { H2 } from '../atoms'
 import Link from 'next/link'
 
-const freeTimeInMinutes = 30;
+const freeTimeInMinutes = 30
 
 export default function RentInProgressCard({ rent }: { rent: Rent }) {
   const [stationStart, setStationStart]: [Station, Function] = useState(null)
@@ -39,8 +39,8 @@ export default function RentInProgressCard({ rent }: { rent: Rent }) {
   const nowDateParsed = dayjs()
   const durationInMinutes = nowDateParsed.diff(beginDateParsed, 'm')
   const timeLeftInMinutes = freeTimeInMinutes - durationInMinutes
-  const isFreeTimeSpent = timeLeftInMinutes <= 0;
-  const paidTime = -timeLeftInMinutes;
+  const isFreeTimeSpent = timeLeftInMinutes <= 0
+  const paidTime = -timeLeftInMinutes
 
   return (
     <>
@@ -49,8 +49,7 @@ export default function RentInProgressCard({ rent }: { rent: Rent }) {
         <div className="flex space-between items-end gap-4">
           <Bicycle strokeWidth="2" className="w-14 h-14" />
           <div className="flex flex-col">
-            {
-              isFreeTimeSpent ? (
+            {isFreeTimeSpent ? (
               <>
                 <hgroup className="flex items-end gap-1">
                   <H2 className="font-bold">{paidTime}</H2>
@@ -58,13 +57,12 @@ export default function RentInProgressCard({ rent }: { rent: Rent }) {
                 </hgroup>
                 <span>Temps payant</span>
               </>
-              ) : (
+            ) : (
               <>
                 <span>{timeLeftInMinutes} minute(s)</span>
                 <span>Temps gratuit</span>
               </>
-              )
-            }
+            )}
           </div>
         </div>
         <Link href="/rents/in-progress" className="after:absolute after:inset-0">

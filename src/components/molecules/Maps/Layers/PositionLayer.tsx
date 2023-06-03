@@ -19,8 +19,6 @@ export default function PositionLayer({zIndex = 0}: PositionLayerProps) {
     useEffect(()=>{
         if (!map) return;
 
-        console.log(map.getView().getProjection())
-
         let geolocation = new Geolocation({
             // enableHighAccuracy must be set to true to have the heading value.
             trackingOptions: {
