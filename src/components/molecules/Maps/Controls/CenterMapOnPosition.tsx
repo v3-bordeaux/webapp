@@ -1,13 +1,9 @@
 import {useContext, useEffect} from "react";
 import MapContext, {MapContextContent} from "@/components/molecules/Maps/Map/MapContext";
 import { Location } from 'akar-icons'
-import { fromLonLat } from "ol/proj";
-import {Geolocation} from "ol";
 import { useGeolocation } from "@/hooks/useGeolocation";
 
-const bordeauxCoord = fromLonLat([-0.5795, 44.83])
-
-export function CenterOnPosition() {
+export function CenterMapOnPosition() {
     const {map} = useContext<MapContextContent>(MapContext);
     const {geolocation, setProjection} = useGeolocation();
 
@@ -17,15 +13,13 @@ export function CenterOnPosition() {
         }
         
         setProjection(map.getView().getProjection());
-    }, [map])
-
-
-    if(!geolocation) {
-        return;
-    }
+    }, [map, setProjection])
 
     const centerMapOnPosition = ()=>{
-        console.log(geolocation.getPosition())
+        if(!geolocation) {
+            return;
+        }
+
         map.getView().setCenter(geolocation.getPosition())
     }
 
@@ -33,6 +27,7 @@ export function CenterOnPosition() {
         <button 
             className="pointer-events-auto rounded-full p-3 bg-cta-1 border-2 border-text-1 shadow-brut active:shadow-none active:translate-x-1 active:translate-y-1"
             onClick={centerMapOnPosition}
+            disabled={!map || !geolocation}
         >
             <Location className="h-8 w-8"/>
         </button>

@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 
 import GlobalMap, {bikesOrPlaces} from '@/components/molecules/Maps/GlobalMap'
 import { RentInProgress } from '@/components/organisms/Account/RentInProgress'
-import { Bicycle, Location, ProductHuntFill } from 'akar-icons'
-import { CenterOnPosition } from '@/components/molecules/Maps/Controls/CenterOnPosition'
+import { Bicycle, ProductHuntFill } from 'akar-icons'
+import { CenterMapOnPosition } from '@/components/molecules/Maps/Controls/CenterMapOnPosition'
 
 export default function Map() {
   const [showBikesOrPlaces, setShowBikesOrPlaces] = useState<bikesOrPlaces>('bikes')
@@ -23,7 +23,7 @@ export default function Map() {
           </div>
 
           <div className="flex flex-col gap-4">
-            <CenterOnPosition/>
+            <CenterMapOnPosition/>
 
             <button 
               className="pointer-events-auto relative flex flex-col overflow-hidden rounded-full border-2 border-text-1 bg-background-3 shadow-brut active:shadow-none active:translate-x-1 active:translate-y-1"
