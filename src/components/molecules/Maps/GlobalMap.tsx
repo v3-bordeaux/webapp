@@ -68,10 +68,6 @@ const stationBikesStyle = (station: Station) => {
   })
 }
 
-interface GlobalMapProps extends PropsWithChildren {
-  showBikesOrPlaces: bikesOrPlaces,
-}
-
 interface MapSize {
   height: number
   width: number
@@ -79,7 +75,12 @@ interface MapSize {
 
 const bordeauxCoord = fromLonLat([-0.5795, 44.83])
 
-export default function GlobalMap({ showBikesOrPlaces, children }: GlobalMapProps) {
+interface GlobalMapProps extends PropsWithChildren {
+  showBikesOrPlaces: bikesOrPlaces
+  onFeatureClick?: (feature: Feature) => void
+}
+
+export default function GlobalMap({ showBikesOrPlaces, onFeatureClick, children }: GlobalMapProps) {
   const vcubsQuery = useGetVcubsQuery()
 
   const [center, setCenter] = useState(bordeauxCoord)
@@ -137,7 +138,7 @@ export default function GlobalMap({ showBikesOrPlaces, children }: GlobalMapProp
     >
       <Layers>
         <TileLayer source={osm()} zIndex={0} />
-        <VectorLayer source={vector({ features: stationsFeatures })} />
+        <VectorLayer source={vector({ features: stationsFeatures })} onFeatureClick={onFeatureClick} />
         <PositionLayer />
       </Layers>
 

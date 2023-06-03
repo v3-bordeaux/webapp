@@ -5,20 +5,37 @@ import GlobalMap, {bikesOrPlaces} from '@/components/molecules/Maps/GlobalMap'
 import { RentInProgress } from '@/components/organisms/Account/RentInProgress'
 import { Bicycle, ProductHuntFill } from 'akar-icons'
 import { CenterMapOnPosition } from '@/components/molecules/Maps/Controls/CenterMapOnPosition'
-import { StationDetails } from '@/components/molecules/Maps/Controls/StationDetails'
+import { StationDetails } from '@/components/molecules/StationDetails'
+
+import type { Feature } from 'ol'
+import type { Station } from '@/_types/tbm/ws/station'
 
 export default function Map() {
   const [showBikesOrPlaces, setShowBikesOrPlaces] = useState<bikesOrPlaces>('bikes')
+  const [showStation, setShowStation] = useState<Station>();
 
   const toggleShowBikesOrPlaces = ()=>{
     setShowBikesOrPlaces(showBikesOrPlaces === 'bikes' ? 'places' : 'bikes');
   }
 
+  const handleFeatureClick = (feature: Feature) => {
+    const station = feature.get('data')?.station
+    if(!station) {
+      return;
+    }
+
+    setShowStation(station);
+  }
+
+  const handleCloseStationDetails = () => {
+    setShowStation(null);
+  }
+
   return (
     <main className="relative w-full">
-      <GlobalMap showBikesOrPlaces={showBikesOrPlaces}>
+      <StationDetails station={showStation} onClose={handleCloseStationDetails}/>
 
-        <StationDetails/>
+      <GlobalMap showBikesOrPlaces={showBikesOrPlaces} onFeatureClick={handleFeatureClick}>
 
         <section className="container pointer-events-none z-40 py-4 absolute inset-0 flex items-end gap-8">
           <div className="pointer-events-auto flex-grow">
