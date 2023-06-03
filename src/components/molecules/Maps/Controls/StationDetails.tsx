@@ -1,9 +1,10 @@
 import {useContext, useEffect, useState} from "react";
 import MapContext, {MapContextContent} from "@/components/molecules/Maps/Map/MapContext";
 import { Feature } from "ol";
-import type { Station } from '@/_types/tbm/ws/station'
 import { H2 } from "@/components/atoms";
 import { Bicycle, ProductHuntFill } from "akar-icons";
+
+import type { Station } from '@/_types/tbm/ws/station'
 
 export function StationDetails() {
     const {map} = useContext<MapContextContent>(MapContext);
