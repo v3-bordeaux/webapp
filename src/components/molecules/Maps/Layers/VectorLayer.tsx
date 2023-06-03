@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from 'react'
 import OLVectorLayer from 'ol/layer/Vector'
-import { Feature } from "ol";
+import { Feature } from 'ol'
 
-import MapContext, {MapContextContent} from "@/components/molecules/Maps/Map/MapContext";
-import type VectorSource from 'ol/source/Vector';
-import type { Geometry } from 'ol/geom';
-import type { StyleLike } from 'ol/style/Style';
-import type { FlatStyleLike } from 'ol/style/flat';
+import MapContext, { MapContextContent } from '@/components/molecules/Maps/Map/MapContext'
+import type VectorSource from 'ol/source/Vector'
+import type { Geometry } from 'ol/geom'
+import type { StyleLike } from 'ol/style/Style'
+import type { FlatStyleLike } from 'ol/style/flat'
 
 export interface VectorLayerProps {
   source: VectorSource<Geometry>
@@ -15,7 +15,12 @@ export interface VectorLayerProps {
   onFeatureClick?: (feature: Feature) => void
 }
 
-export default function VectorLayer({ source, style, zIndex = 0, onFeatureClick }: VectorLayerProps) {
+export default function VectorLayer({
+  source,
+  style,
+  zIndex = 0,
+  onFeatureClick
+}: VectorLayerProps) {
   const { map } = useContext<MapContextContent>(MapContext)
   const [vectorLayer, setVectorLayer] = useState(null)
 
@@ -28,7 +33,7 @@ export default function VectorLayer({ source, style, zIndex = 0, onFeatureClick 
     })
 
     map.addLayer(localVectorLayer)
-    
+
     localVectorLayer.setZIndex(zIndex)
 
     setVectorLayer(localVectorLayer)
@@ -37,8 +42,8 @@ export default function VectorLayer({ source, style, zIndex = 0, onFeatureClick 
       const feature = map.forEachFeatureAtPixel(evt.pixel, function (feature: Feature) {
         return feature
       })
-  
-      if(feature && onFeatureClick) {
+
+      if (feature && onFeatureClick) {
         onFeatureClick(feature)
       }
     })
