@@ -3,35 +3,45 @@ import React, { useState } from 'react'
 
 import GlobalMap, {bikesOrPlaces} from '@/components/molecules/Maps/GlobalMap'
 import { RentInProgress } from '@/components/organisms/Account/RentInProgress'
-import { Bicycle, CheckIn, ProductHuntFill } from 'akar-icons'
+import { Bicycle, ProductHuntFill } from 'akar-icons'
+import { CenterMapOnPosition } from '@/components/molecules/Maps/Controls/CenterMapOnPosition'
 
 export default function Map() {
   const [showBikesOrPlaces, setShowBikesOrPlaces] = useState<bikesOrPlaces>('bikes')
 
+  const toggleShowBikesOrPlaces = ()=>{
+    setShowBikesOrPlaces(showBikesOrPlaces === 'bikes' ? 'places' : 'bikes');
+  }
+
   return (
     <main className="relative w-full">
-      <GlobalMap showBikesOrPlaces={showBikesOrPlaces} />
+      <GlobalMap showBikesOrPlaces={showBikesOrPlaces}>
 
-      <section className="absolute bottom-0 right-0 p-4">
-        <div className="flex flex-col gap-2 overflow-hidden border-2 border-text-1 bg-background-3 drop-shadow-brut rounded-full">
-          <button
-            className={'rounded-full p-3.5' + (showBikesOrPlaces === 'bikes' ? ' bg-cta-1 ring-2 ring-text-1' : '')}
-            onClick={() => setShowBikesOrPlaces('bikes')}
-            >
-            <Bicycle className="h-8 w-8"/>
-          </button>
-          <button
-            className={'rounded-full p-3.5' + (showBikesOrPlaces === 'places' ? ' bg-cta-1 ring-2 ring-text-1' : '')}
-            onClick={() => setShowBikesOrPlaces('places')}
-            >
-            <ProductHuntFill className="h-8 w-8"/>
-          </button>
-        </div>
-      </section>
+        <section className="container pointer-events-none z-50 py-4 absolute inset-0 flex items-end gap-8">
+          <div className="pointer-events-auto flex-grow">
+            <RentInProgress/>
+          </div>
 
-      <section className="absolute bottom-0 left-0 p-4">
-        <RentInProgress/>
-      </section>
+          <div className="flex flex-col gap-4">
+            <CenterMapOnPosition/>
+
+            <button 
+              className="pointer-events-auto relative flex flex-col overflow-hidden rounded-full border-2 border-text-1 bg-background-3 shadow-brut active:shadow-none active:translate-x-1 active:translate-y-1"
+              onClick={toggleShowBikesOrPlaces}
+            >
+              <div className={"absolute left-0 top-0 rounded-full w-full aspect-square bg-cta-1 ring-2 ring-text-1 transition-transform delay-300 " + (showBikesOrPlaces === 'bikes' ? '':'translate-y-full')}></div>
+
+              <div className="p-3 z-10">
+                <Bicycle className="h-8 w-8"/>
+              </div>
+              <div className="p-3 z-10">
+                <ProductHuntFill className="h-8 w-8"/>
+              </div>
+            </button>
+          </div>
+          
+        </section>      
+      </GlobalMap>
     </main>
   )
 }

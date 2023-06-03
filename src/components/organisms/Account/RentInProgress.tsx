@@ -36,7 +36,7 @@ export function RentInProgress() {
   //     totalElements: 1,
   // };
   return (
-    <div className="relative rounded-3xl text-text-1 bg-secondary-1 drop-shadow-brut px-5 py-4 border-2 border-text-1">
+    <div className="relative rounded-3xl text-text-1 bg-secondary-1 shadow-brut px-5 py-4 border-2 border-text-1">
       {isFetching || isLoading ? (
         <Spinner />
       ) : data.totalElements === 0 ? (
