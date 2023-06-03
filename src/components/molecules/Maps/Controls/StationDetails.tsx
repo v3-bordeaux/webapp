@@ -17,8 +17,8 @@ export function StationDetails() {
               return feature
             })
         
-            if (feature.get('name')) {
-              feature.get('name')
+            if(!feature) {
+                return
             }
         
             setStation(feature.get('data').station);
@@ -26,13 +26,22 @@ export function StationDetails() {
     }, [map])
 
     const closeBottomSheet = ()=>{
+        if(!station) {
+            return
+        }
+        
+        console.log('remove station')
         setStation(null);
     }
 
+    if(!station) {
+        return null
+    }
 
-    return !station ? null : (
+    return (
         <section className="z-50 fixed bottom-0 left-0 w-full h-full">
-            <div className="absolute inset-0 bg-backdrop-1/50" onClick={closeBottomSheet}></div>
+            <div className="absolute inset-0 bg-backdrop-2/50" onClick={closeBottomSheet}></div>
+
             <section className="z-50 rounded-t-2xl fixed bottom-0 left-0 w-full h-2/3 bg-background-3">
 
             </section>
