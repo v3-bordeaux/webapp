@@ -8,9 +8,9 @@ import type { Rent } from '@/_types/cykleo/rent'
 import type { Station } from '@/_types/tbm/ws/station'
 import { H2 } from '../atoms'
 import RentInProgressMap from './Maps/RentInProgressMap'
-import { Alarm, Money } from 'akar-icons'
+import { Alarm, Money } from '@v3-bordeaux/akar-icons'
 
-const freeTimeInMinutes = 30;
+const freeTimeInMinutes = 30
 
 interface RentInProgressResumeProps {
   rent: Rent
@@ -43,8 +43,8 @@ export default function RentInProgressResume({ rent }: RentInProgressResumeProps
   const nowDateParsed = dayjs()
   const durationInMinutes = nowDateParsed.diff(beginDateParsed, 'm')
   const timeLeftInMinutes = freeTimeInMinutes - durationInMinutes
-  const isFreeTimeSpent = timeLeftInMinutes <= 0;
-  const paidTime = -timeLeftInMinutes;
+  const isFreeTimeSpent = timeLeftInMinutes <= 0
+  const paidTime = -timeLeftInMinutes
 
   return (
     <section className="flex flex-col gap-2">

@@ -1,6 +1,6 @@
 import { createPortal } from 'react-dom'
 import { H2 } from '@/components/atoms'
-import { Bicycle, ChevronLeft, ProductHuntFill } from 'akar-icons'
+import { Bicycle, BicycleElectric, ChevronLeft, Parking } from '@v3-bordeaux/akar-icons'
 
 import type { Station } from '@/_types/tbm/ws/station'
 
@@ -31,12 +31,12 @@ export function StationDetails({ station, onClose }: StationDetailsProps) {
             </div>
 
             <div className="flex items-center gap-2">
-              <Bicycle className="h-8 w-8" />
+              <BicycleElectric className="h-8 w-8" />
               <span>{station.nbElectricBikeAvailable}</span>
             </div>
 
             <div className="flex items-center gap-2">
-              <ProductHuntFill className="h-8 w-8" />
+              <Parking className="h-8 w-8" />
               <span>{station.nbPlaceAvailable}</span>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react'
 import MapContext, { MapContextContent } from '@/components/molecules/Maps/Map/MapContext'
-import { Location } from 'akar-icons'
+import { Location } from '@v3-bordeaux/akar-icons'
 import { useGeolocation } from '@/hooks/useGeolocation'
 
 export function CenterMapOnPosition() {

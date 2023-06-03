@@ -3,7 +3,8 @@ import React, { useState } from 'react'
 
 import GlobalMap, { bikesOrPlaces } from '@/components/molecules/Maps/GlobalMap'
 import { RentInProgress } from '@/components/organisms/Account/RentInProgress'
-import { Bicycle, ProductHuntFill } from 'akar-icons'
+import { ProductHuntFill } from 'akar-icons'
+import { Bicycle } from '@v3-bordeaux/akar-icons'
 import { CenterMapOnPosition } from '@/components/molecules/Maps/Controls/CenterMapOnPosition'
 import { StationDetails } from '@/components/molecules/StationDetails'
 
