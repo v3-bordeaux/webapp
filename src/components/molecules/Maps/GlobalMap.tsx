@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { PropsWithChildren, useEffect, useState } from 'react'
 import { Feature } from 'ol'
 import { Point } from 'ol/geom'
 import { fromLonLat } from 'ol/proj'
@@ -12,6 +12,7 @@ import PositionLayer from '@/components/molecules/Maps/Layers/PositionLayer'
 import { Layers, TileLayer, VectorLayer } from '@/components/molecules/Maps/Layers'
 
 import type { Station } from '@/_types/tbm/ws/station'
+import { Coordinate } from 'ol/coordinate'
 
 //TODO(Louis): Never import things from the pages here, in order to avoid circular imports
 // bien vu : j'ai inversé l'import, la page import le component et les types associés
@@ -68,8 +69,8 @@ const stationBikesStyle = (station: Station) => {
   })
 }
 
-interface GlobalMapProps {
-  showBikesOrPlaces: bikesOrPlaces
+interface GlobalMapProps extends PropsWithChildren {
+  showBikesOrPlaces: bikesOrPlaces,
 }
 
 interface MapSize {
@@ -79,7 +80,7 @@ interface MapSize {
 
 const bordeauxCoord = fromLonLat([-0.5795, 44.83])
 
-export default function GlobalMap({ showBikesOrPlaces }: GlobalMapProps) {
+export default function GlobalMap({ showBikesOrPlaces, children }: GlobalMapProps) {
   const vcubsQuery = useGetVcubsQuery()
 
   const [center, setCenter] = useState(bordeauxCoord)
@@ -138,6 +139,8 @@ export default function GlobalMap({ showBikesOrPlaces }: GlobalMapProps) {
         <VectorLayer source={vector({ features: stationsFeatures })} />
         <PositionLayer />
       </Layers>
+
+      {children}
     </Map>
   )
 }

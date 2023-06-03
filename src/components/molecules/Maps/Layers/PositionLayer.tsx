@@ -7,13 +7,19 @@ import {Point} from "ol/geom";
 import {Fill, Stroke, Style} from "ol/style";
 import CircleStyle from "ol/style/Circle";
 
-export default function PositionLayer({zIndex = 0}) {
+interface PositionLayerProps {
+    zIndex?: number,
+}
+
+export default function PositionLayer({zIndex = 0}: PositionLayerProps) {
     const {map} = useContext<MapContextContent>(MapContext);
 
     const [features, setFeatures] = useState<Array<Feature>>([]);
 
-    useEffect(() => {
+    useEffect(()=>{
         if (!map) return;
+
+        console.log(map.getView().getProjection())
 
         let geolocation = new Geolocation({
             // enableHighAccuracy must be set to true to have the heading value.
