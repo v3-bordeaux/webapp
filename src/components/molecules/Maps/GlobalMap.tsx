@@ -12,7 +12,6 @@ import PositionLayer from '@/components/molecules/Maps/Layers/PositionLayer'
 import { Layers, TileLayer, VectorLayer } from '@/components/molecules/Maps/Layers'
 
 import type { Station } from '@/_types/tbm/ws/station'
-import { Coordinate } from 'ol/coordinate'
 
 //TODO(Louis): Never import things from the pages here, in order to avoid circular imports
 // bien vu : j'ai inversé l'import, la page import le component et les types associés
@@ -122,6 +121,8 @@ export default function GlobalMap({ showBikesOrPlaces, children }: GlobalMapProp
       } else {
         stationFeature.setStyle(stationPlacesStyle(station))
       }
+
+      stationFeature.set('data', {station})
 
       return stationFeature
     })

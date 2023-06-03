@@ -5,6 +5,7 @@ import GlobalMap, {bikesOrPlaces} from '@/components/molecules/Maps/GlobalMap'
 import { RentInProgress } from '@/components/organisms/Account/RentInProgress'
 import { Bicycle, ProductHuntFill } from 'akar-icons'
 import { CenterMapOnPosition } from '@/components/molecules/Maps/Controls/CenterMapOnPosition'
+import { StationDetails } from '@/components/molecules/Maps/Controls/StationDetails'
 
 export default function Map() {
   const [showBikesOrPlaces, setShowBikesOrPlaces] = useState<bikesOrPlaces>('bikes')
@@ -17,7 +18,9 @@ export default function Map() {
     <main className="relative w-full">
       <GlobalMap showBikesOrPlaces={showBikesOrPlaces}>
 
-        <section className="container pointer-events-none z-50 py-4 absolute inset-0 flex items-end gap-8">
+        <StationDetails/>
+
+        <section className="container pointer-events-none z-40 py-4 absolute inset-0 flex items-end gap-8">
           <div className="pointer-events-auto flex-grow">
             <RentInProgress/>
           </div>

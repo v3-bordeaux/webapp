@@ -25,13 +25,11 @@ export default function VectorLayer({ source, style = null, zIndex = 0 }) {
     }
   }, [map])
 
-  // update layer when source change
-  useEffect(() => {
-    if (!vectorLayer) {
-      return
-    }
+  if (!vectorLayer) {
+    return null
+  }
 
-    vectorLayer.setSource(source)
-  }, [source])
+  vectorLayer.setSource(source)
+
   return null
 }
