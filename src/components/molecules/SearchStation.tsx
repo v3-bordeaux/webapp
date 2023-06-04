@@ -11,7 +11,7 @@ export default function SearchStation() {
   const stationsList = vcubsQuery?.data?.lists ?? []
 
   const stationsMatch = stationsList.filter((station) =>
-    station.name.toLowerCase().includes(searchText.toLowerCase())
+    station.name.toLowerCase().includes(searchText?.toLowerCase())
   )
 
   return (
