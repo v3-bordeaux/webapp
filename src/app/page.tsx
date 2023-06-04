@@ -9,6 +9,7 @@ import { StationDetails } from '@/components/molecules/StationDetails'
 
 import type { Feature } from 'ol'
 import type { Station } from '@/_types/tbm/ws/station'
+import SearchStation from '@/components/molecules/SearchStation'
 
 export default function Map() {
   const [showBikesOrPlaces, setShowBikesOrPlaces] = useState<bikesOrPlaces>('bikes')
@@ -37,6 +38,10 @@ export default function Map() {
       <StationDetails station={showStation} onClose={handleCloseStationDetails} />
 
       <GlobalMap showBikesOrPlaces={showBikesOrPlaces} onFeatureClick={handleFeatureClick}>
+        <section className="container pointer-events-none z-40 py-4 absolute inset-0">
+          <SearchStation />
+        </section>
+
         <section className="container pointer-events-none z-40 py-4 absolute inset-0 flex items-end gap-8">
           <div className="pointer-events-auto flex-grow">
             <RentInProgress />
