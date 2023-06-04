@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 
-import GlobalMap, { BikesOrPlaces } from '@/components/molecules/Maps/GlobalMap'
+import GlobalMap from '@/components/molecules/Maps/GlobalMap'
 import { RentInProgress } from '@/components/organisms/Account/RentInProgress'
 import { Bicycle, Parking } from '@v3-bordeaux/akar-icons'
 import { CenterMapOnPosition } from '@/components/molecules/Maps/Controls/CenterMapOnPosition'
@@ -11,6 +11,7 @@ import type { Feature } from 'ol'
 import type { Station } from '@/_types/tbm/ws/station'
 import SearchStation from '@/components/molecules/SearchStation'
 import { BottomSheet } from '@/components/molecules/BottomSheet'
+import { BikesOrPlaces } from '@/components/molecules/Maps/Styles/Station'
 
 export default function Map() {
   const [showBikesOrPlaces, setShowBikesOrPlaces] = useState<BikesOrPlaces>('bikes')
