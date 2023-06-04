@@ -3,6 +3,7 @@ import { Input } from '../atoms'
 import { useState } from 'react'
 import { useGetVcubsQuery } from '@/redux/services/tbmWSApi'
 import { StationDetails } from './StationDetails'
+import { Backdrop } from '../atoms/Backdrop'
 
 export default function SearchStation() {
   const vcubsQuery = useGetVcubsQuery()
@@ -21,7 +22,8 @@ export default function SearchStation() {
   }
 
   return (
-    <section className="container pointer-events-none z-40 pt-4 absolute inset-0 h-full">
+    <section className="absolute container pointer-events-none z-40 pt-4 inset-0 h-full">
+      {isSearching && <Backdrop />}
       <section className="flex flex-col h-full">
         <div className="pointer-events-auto relative bg-background-2 border-2 border-text-1 rounded-full flex items-center">
           <Input
@@ -47,7 +49,7 @@ export default function SearchStation() {
         </div>
 
         {isSearching && (
-          <ul className="pointer-events-auto flex flex-col gap-2 overflow-scroll pt-6 pb-32">
+          <ul className="relative pointer-events-auto flex flex-col gap-2 overflow-scroll pt-6 pb-32">
             {stationsMatch.map((station) => (
               <li
                 key={station.id}
