@@ -42,7 +42,7 @@ export default function Map() {
           <SearchStation />
         </section>
 
-        <section className="container pointer-events-none z-40 py-4 absolute inset-0 flex items-end gap-8">
+        <section className="container pointer-events-none z-30 py-4 absolute inset-0 flex items-end gap-8">
           <div className="pointer-events-auto flex-grow">
             <RentInProgress />
           </div>
