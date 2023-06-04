@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 
-import GlobalMap, { bikesOrPlaces } from '@/components/molecules/Maps/GlobalMap'
+import GlobalMap from '@/components/molecules/Maps/GlobalMap'
 import { RentInProgress } from '@/components/organisms/Account/RentInProgress'
 import { Bicycle, Parking } from '@v3-bordeaux/akar-icons'
 import { CenterMapOnPosition } from '@/components/molecules/Maps/Controls/CenterMapOnPosition'
@@ -11,22 +11,30 @@ import type { Feature } from 'ol'
 import type { Station } from '@/_types/tbm/ws/station'
 import SearchStation from '@/components/molecules/SearchStation'
 import { BottomSheet } from '@/components/molecules/BottomSheet'
+import { BikesOrPlaces } from '@/components/molecules/Maps/Styles/Station'
 
 export default function Map() {
-  const [showBikesOrPlaces, setShowBikesOrPlaces] = useState<bikesOrPlaces>('bikes')
+  const [showBikesOrPlaces, setShowBikesOrPlaces] = useState<BikesOrPlaces>('bikes')
   const [showStation, setShowStation] = useState<Station>()
 
   const toggleShowBikesOrPlaces = () => {
     setShowBikesOrPlaces(showBikesOrPlaces === 'bikes' ? 'places' : 'bikes')
   }
 
-  const handleFeatureClick = (feature: Feature) => {
-    const station = feature.get('data')?.station
-    if (!station) {
-      return
+  const handleClusterFeatureClick = (feature: Feature) => {
+    const clusturedFeatures = feature.get('features')
+
+    if (clusturedFeatures.length !== 1) {
+      return true
     }
 
-    setShowStation(station)
+    const station = clusturedFeatures[0].get('data')?.station
+
+    if (station) {
+      setShowStation(station)
+    }
+
+    return false
   }
 
   const handleCloseStationDetails = () => {
@@ -39,7 +47,10 @@ export default function Map() {
         <StationDetails station={showStation} />
       </BottomSheet>
 
-      <GlobalMap showBikesOrPlaces={showBikesOrPlaces} onFeatureClick={handleFeatureClick}>
+      <GlobalMap
+        showBikesOrPlaces={showBikesOrPlaces}
+        onClusterFeatureClick={handleClusterFeatureClick}
+      >
         <SearchStation />
 
         <section className="container pointer-events-none z-30 py-4 absolute inset-0 flex items-end gap-8">

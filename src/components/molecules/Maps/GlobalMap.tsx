@@ -3,70 +3,16 @@ import { PropsWithChildren, useEffect, useState } from 'react'
 import { Feature } from 'ol'
 import { Point } from 'ol/geom'
 import { fromLonLat } from 'ol/proj'
-import { Circle, Fill, Stroke, Style, Text } from 'ol/style'
+import { Cluster } from 'ol/source'
+
 import { useGetVcubsQuery } from '@/redux/services/tbmWSApi'
 
 import Map from '@/components/molecules/Maps/Map/Map'
 import { osm, vector } from '@/components/molecules/Maps/Source'
 import PositionLayer from '@/components/molecules/Maps/Layers/PositionLayer'
 import { Layers, TileLayer, VectorLayer } from '@/components/molecules/Maps/Layers'
-
+import { BikesOrPlaces, getClusteredStationStyle } from '@/components/molecules/Maps/Styles/Station'
 import type { Station } from '@/_types/tbm/ws/station'
-
-//TODO(Louis): Never import things from the pages here, in order to avoid circular imports
-// bien vu : j'ai inversé l'import, la page import le component et les types associés
-export type bikesOrPlaces = 'bikes' | 'places'
-
-const stationPlacesStyle = (station: Station) => {
-  const nbPlaces = station.nbPlaceAvailable
-  let bgColor = '#a3c5fe'
-  if (nbPlaces === 0) {
-    bgColor = '#ffa1a1'
-  } else if (nbPlaces < 5) {
-    bgColor = '#ffd0a1'
-  }
-  return new Style({
-    text: new Text({
-      font: 'bold 12px sans-serif',
-      text: nbPlaces.toString()
-    }),
-    image: new Circle({
-      radius: 15,
-      fill: new Fill({
-        color: bgColor
-      }),
-      stroke: new Stroke({
-        color: '#000'
-      })
-    })
-  })
-}
-
-const stationBikesStyle = (station: Station) => {
-  const nbBikes = station.nbBikeAvailable + station.nbElectricBikeAvailable
-
-  let bgColor = '#a3c5fe'
-  if (nbBikes === 0) {
-    bgColor = '#ffa1a1'
-  } else if (nbBikes < 5) {
-    bgColor = '#ffd0a1'
-  }
-  return new Style({
-    text: new Text({
-      font: 'bold 12px sans-serif',
-      text: nbBikes.toString()
-    }),
-    image: new Circle({
-      radius: 15,
-      fill: new Fill({
-        color: bgColor
-      }),
-      stroke: new Stroke({
-        color: '#000'
-      })
-    })
-  })
-}
 
 interface MapSize {
   height: number
@@ -76,18 +22,20 @@ interface MapSize {
 const bordeauxCoord = fromLonLat([-0.5795, 44.83])
 
 interface GlobalMapProps extends PropsWithChildren {
-  showBikesOrPlaces: bikesOrPlaces
-  onFeatureClick?: (feature: Feature) => void
+  showBikesOrPlaces: BikesOrPlaces
+  onClusterFeatureClick?: (feature: Feature) => boolean
 }
 
-export default function GlobalMap({ showBikesOrPlaces, onFeatureClick, children }: GlobalMapProps) {
+export default function GlobalMap({
+  showBikesOrPlaces,
+  onClusterFeatureClick,
+  children
+}: GlobalMapProps) {
   const vcubsQuery = useGetVcubsQuery()
 
-  const [center, setCenter] = useState(bordeauxCoord)
-  const [zoom, setZoom] = useState(12)
-  const [mapSize, setMapSize] = useState<MapSize>({height: 0, width: 0})
-
-  let stationsFeatures = [];
+  const [center] = useState(bordeauxCoord)
+  const [zoom] = useState(12)
+  const [mapSize, setMapSize] = useState<MapSize>({ height: 0, width: 0 })
 
   function updateMapSize(window) {
     setMapSize({
@@ -96,49 +44,45 @@ export default function GlobalMap({ showBikesOrPlaces, onFeatureClick, children 
     })
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     updateMapSize(window)
 
-    window.addEventListener('resize', ()=>{
+    window.addEventListener('resize', () => {
       updateMapSize(window)
     })
-  }, []);
+  }, [])
 
+  let stationsFeatures = []
 
   if (vcubsQuery.data) {
     const stationsList = vcubsQuery.data.lists
     stationsFeatures = stationsList.map((station: Station) => {
-      const stationCoord = fromLonLat([
-        parseFloat(station.longitude),
-        parseFloat(station.latitude)
-      ])
+      const stationCoord = fromLonLat([parseFloat(station.longitude), parseFloat(station.latitude)])
 
       let stationFeature = new Feature({
         geometry: new Point(stationCoord)
       })
 
-      if (showBikesOrPlaces === 'bikes') {
-        stationFeature.setStyle(stationBikesStyle(station))
-      } else {
-        stationFeature.setStyle(stationPlacesStyle(station))
-      }
-
-      stationFeature.set('data', {station})
+      stationFeature.set('data', { station })
 
       return stationFeature
     })
   }
 
+  const clusterSource = new Cluster({
+    distance: 30,
+    source: vector({ features: stationsFeatures })
+  })
+
   return (
-    <Map
-      center={center}
-      zoom={zoom}
-      className="!aspect-auto"
-      style={{...mapSize}}
-    >
+    <Map center={center} zoom={zoom} className="!aspect-auto" style={{ ...mapSize }}>
       <Layers>
         <TileLayer source={osm()} zIndex={0} />
-        <VectorLayer source={vector({ features: stationsFeatures })} onFeatureClick={onFeatureClick} />
+        <VectorLayer
+          source={clusterSource}
+          style={getClusteredStationStyle(showBikesOrPlaces)}
+          onClusterFeatureClick={onClusterFeatureClick}
+        />
         <PositionLayer />
       </Layers>
 
