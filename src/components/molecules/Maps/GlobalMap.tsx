@@ -12,23 +12,42 @@ import PositionLayer from '@/components/molecules/Maps/Layers/PositionLayer'
 import { Layers, TileLayer, VectorLayer } from '@/components/molecules/Maps/Layers'
 
 import type { Station } from '@/_types/tbm/ws/station'
+import { Cluster } from 'ol/source'
 
-//TODO(Louis): Never import things from the pages here, in order to avoid circular imports
-// bien vu : j'ai inversé l'import, la page import le component et les types associés
-export type bikesOrPlaces = 'bikes' | 'places'
+export type BikesOrPlaces = 'bikes' | 'places'
 
-const stationPlacesStyle = (station: Station) => {
-  const nbPlaces = station.nbPlaceAvailable
-  let bgColor = '#a3c5fe'
-  if (nbPlaces === 0) {
-    bgColor = '#ffa1a1'
-  } else if (nbPlaces < 5) {
-    bgColor = '#ffd0a1'
+const themeForBikesOrPlaces = {
+  bikes: {
+    getNb: (station: Station) => station?.nbBikeAvailable + station?.nbElectricBikeAvailable,
+    getBgColor: (nb: number) => {
+      if (nb === 0) {
+        return '#ffa1a1'
+      }
+      if (nb < 5) {
+        return '#ffd0a1'
+      }
+      return '#a3c5fe'
+    }
+  },
+  places: {
+    getNb: (station: Station) => station?.nbPlaceAvailable,
+    getBgColor: (nb: number) => {
+      if (nb === 0) {
+        return '#ffa1a1'
+      }
+      if (nb < 5) {
+        return '#ffd0a1'
+      }
+      return '#a3c5fe'
+    }
   }
-  return new Style({
+}
+
+const stationStyle = ({ text, bgColor }: { text: string; bgColor: string }) =>
+  new Style({
     text: new Text({
       font: 'bold 12px sans-serif',
-      text: nbPlaces.toString()
+      text: text
     }),
     image: new Circle({
       radius: 15,
@@ -40,31 +59,26 @@ const stationPlacesStyle = (station: Station) => {
       })
     })
   })
-}
 
-const stationBikesStyle = (station: Station) => {
-  const nbBikes = station.nbBikeAvailable + station.nbElectricBikeAvailable
+const getClusteredStationStyle = (showBikesOrPlaces) => (feature: Feature) => {
+  const theme = themeForBikesOrPlaces[showBikesOrPlaces]
 
-  let bgColor = '#a3c5fe'
-  if (nbBikes === 0) {
-    bgColor = '#ffa1a1'
-  } else if (nbBikes < 5) {
-    bgColor = '#ffd0a1'
+  const features: Array<Feature> | null = feature.get('features')
+  let nb = 0
+
+  if (features?.length) {
+    const stationsList: Array<Station> = features.map((feature) => feature.get('data')?.station)
+
+    nb = stationsList.reduce((_nb, station) => _nb + theme.getNb(station), 0)
+  } else {
+    const station: Station = feature.get('data')?.station
+
+    nb = theme.getNb(station)
   }
-  return new Style({
-    text: new Text({
-      font: 'bold 12px sans-serif',
-      text: nbBikes.toString()
-    }),
-    image: new Circle({
-      radius: 15,
-      fill: new Fill({
-        color: bgColor
-      }),
-      stroke: new Stroke({
-        color: '#000'
-      })
-    })
+
+  return stationStyle({
+    text: nb.toString(),
+    bgColor: theme.getBgColor(nb)
   })
 }
 
@@ -76,18 +90,20 @@ interface MapSize {
 const bordeauxCoord = fromLonLat([-0.5795, 44.83])
 
 interface GlobalMapProps extends PropsWithChildren {
-  showBikesOrPlaces: bikesOrPlaces
-  onFeatureClick?: (feature: Feature) => void
+  showBikesOrPlaces: BikesOrPlaces
+  onClusterFeatureClick?: (feature: Feature) => boolean
 }
 
-export default function GlobalMap({ showBikesOrPlaces, onFeatureClick, children }: GlobalMapProps) {
+export default function GlobalMap({
+  showBikesOrPlaces,
+  onClusterFeatureClick,
+  children
+}: GlobalMapProps) {
   const vcubsQuery = useGetVcubsQuery()
 
-  const [center, setCenter] = useState(bordeauxCoord)
-  const [zoom, setZoom] = useState(12)
-  const [mapSize, setMapSize] = useState<MapSize>({height: 0, width: 0})
-
-  let stationsFeatures = [];
+  const [center] = useState(bordeauxCoord)
+  const [zoom] = useState(12)
+  const [mapSize, setMapSize] = useState<MapSize>({ height: 0, width: 0 })
 
   function updateMapSize(window) {
     setMapSize({
@@ -96,49 +112,47 @@ export default function GlobalMap({ showBikesOrPlaces, onFeatureClick, children 
     })
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     updateMapSize(window)
 
-    window.addEventListener('resize', ()=>{
+    window.addEventListener('resize', () => {
       updateMapSize(window)
     })
-  }, []);
+  }, [])
 
+  let stationsFeatures = []
 
   if (vcubsQuery.data) {
     const stationsList = vcubsQuery.data.lists
     stationsFeatures = stationsList.map((station: Station) => {
-      const stationCoord = fromLonLat([
-        parseFloat(station.longitude),
-        parseFloat(station.latitude)
-      ])
+      const stationCoord = fromLonLat([parseFloat(station.longitude), parseFloat(station.latitude)])
 
       let stationFeature = new Feature({
         geometry: new Point(stationCoord)
       })
 
-      if (showBikesOrPlaces === 'bikes') {
-        stationFeature.setStyle(stationBikesStyle(station))
-      } else {
-        stationFeature.setStyle(stationPlacesStyle(station))
-      }
-
-      stationFeature.set('data', {station})
+      stationFeature.set('data', { station })
 
       return stationFeature
     })
   }
 
+  const vectorStyle = getClusteredStationStyle(showBikesOrPlaces)
+
+  const clusterSource = new Cluster({
+    distance: 30,
+    source: vector({ features: stationsFeatures })
+  })
+
   return (
-    <Map
-      center={center}
-      zoom={zoom}
-      className="!aspect-auto"
-      style={{...mapSize}}
-    >
+    <Map center={center} zoom={zoom} className="!aspect-auto" style={{ ...mapSize }}>
       <Layers>
         <TileLayer source={osm()} zIndex={0} />
-        <VectorLayer source={vector({ features: stationsFeatures })} onFeatureClick={onFeatureClick} />
+        <VectorLayer
+          source={clusterSource}
+          style={vectorStyle}
+          onClusterFeatureClick={onClusterFeatureClick}
+        />
         <PositionLayer />
       </Layers>
 
