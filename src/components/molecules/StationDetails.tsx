@@ -12,7 +12,7 @@ export function StationDetails({ station }: StationDetailsProps) {
   return (
     station && (
       <article>
-        <H2 className="mb-4">{station.name}</H2>
+        <H2 className="text-left mb-4">{station.name}</H2>
 
         <div className="flex gap-8">
           <div className="flex items-center gap-2">
