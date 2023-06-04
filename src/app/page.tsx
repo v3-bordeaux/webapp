@@ -40,9 +40,7 @@ export default function Map() {
       </BottomSheet>
 
       <GlobalMap showBikesOrPlaces={showBikesOrPlaces} onFeatureClick={handleFeatureClick}>
-        <section className="container pointer-events-none z-40 py-4 absolute inset-0">
-          <SearchStation />
-        </section>
+        <SearchStation />
 
         <section className="container pointer-events-none z-30 py-4 absolute inset-0 flex items-end gap-8">
           <div className="pointer-events-auto flex-grow">
