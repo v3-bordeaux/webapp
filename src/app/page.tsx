@@ -10,6 +10,7 @@ import { StationDetails } from '@/components/molecules/StationDetails'
 import type { Feature } from 'ol'
 import type { Station } from '@/_types/tbm/ws/station'
 import SearchStation from '@/components/molecules/SearchStation'
+import { BottomSheet } from '@/components/molecules/BottomSheet'
 
 export default function Map() {
   const [showBikesOrPlaces, setShowBikesOrPlaces] = useState<bikesOrPlaces>('bikes')
@@ -35,7 +36,9 @@ export default function Map() {
 
   return (
     <main className="relative w-full">
-      <StationDetails station={showStation} onClose={handleCloseStationDetails} />
+      <BottomSheet isOpen={!!showStation}>
+        <StationDetails station={showStation} onClick={handleCloseStationDetails} />
+      </BottomSheet>
 
       <GlobalMap showBikesOrPlaces={showBikesOrPlaces} onFeatureClick={handleFeatureClick}>
         <section className="container pointer-events-none z-40 py-4 absolute inset-0">
