@@ -23,7 +23,7 @@ export default function SearchStation() {
 
   return (
     <section className="absolute container pointer-events-none z-40 pt-4 inset-0 h-full">
-      {isSearching && <Backdrop />}
+      {isSearching && <Backdrop onClick={() => setIsSearching(false)} />}
       <section className="flex flex-col h-full">
         <div className="pointer-events-auto relative bg-background-2 border-2 border-text-1 rounded-full flex items-center">
           <Input
