@@ -30,7 +30,6 @@ export default function Map() {
   }
 
   const handleCloseStationDetails = () => {
-    console.log('close')
     setShowStation(null)
   }
 
