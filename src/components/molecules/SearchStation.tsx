@@ -62,7 +62,7 @@ export default function SearchStation() {
             value={searchText || ''}
             onChange={(e) => setSearchText(e.target.value)}
             onFocus={() => setIsSearching(true)}
-            className="pl-12 !bg-transparent border-0 w-full"
+            className="pl-12 !bg-transparent !border-0 w-full"
             placeholder="Rechercher une station"
           />
         </div>
