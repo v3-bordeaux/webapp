@@ -35,8 +35,8 @@ export default function Map() {
 
   return (
     <main className="relative w-full">
-      <BottomSheet isOpen={!!showStation}>
-        <StationDetails station={showStation} onClick={handleCloseStationDetails} />
+      <BottomSheet isOpen={!!showStation} onClick={handleCloseStationDetails}>
+        <StationDetails station={showStation} />
       </BottomSheet>
 
       <GlobalMap showBikesOrPlaces={showBikesOrPlaces} onFeatureClick={handleFeatureClick}>

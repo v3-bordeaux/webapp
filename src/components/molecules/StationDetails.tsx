@@ -6,18 +6,12 @@ import type { Station } from '@/_types/tbm/ws/station'
 
 export interface StationDetailsProps {
   station: Station
-  onClick: () => void
 }
 
-export function StationDetails({ station, onClick }: StationDetailsProps) {
+export function StationDetails({ station }: StationDetailsProps) {
   return (
     station && (
       <article>
-        <button onClick={onClick} className="py-4 -mt-4 flex items-center gap-2">
-          <ChevronLeft className="h-4 w-4" />
-          <span>Retour à la carte</span>
-        </button>
-
         <H2 className="mb-4">{station.name}</H2>
 
         <div className="flex gap-8">
