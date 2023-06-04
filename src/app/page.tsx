@@ -9,6 +9,8 @@ import { StationDetails } from '@/components/molecules/StationDetails'
 
 import type { Feature } from 'ol'
 import type { Station } from '@/_types/tbm/ws/station'
+import SearchStation from '@/components/molecules/SearchStation'
+import { BottomSheet } from '@/components/molecules/BottomSheet'
 
 export default function Map() {
   const [showBikesOrPlaces, setShowBikesOrPlaces] = useState<bikesOrPlaces>('bikes')
@@ -28,16 +30,19 @@ export default function Map() {
   }
 
   const handleCloseStationDetails = () => {
-    console.log('close')
     setShowStation(null)
   }
 
   return (
     <main className="relative w-full">
-      <StationDetails station={showStation} onClose={handleCloseStationDetails} />
+      <BottomSheet isOpen={!!showStation} onClick={handleCloseStationDetails}>
+        <StationDetails station={showStation} />
+      </BottomSheet>
 
       <GlobalMap showBikesOrPlaces={showBikesOrPlaces} onFeatureClick={handleFeatureClick}>
-        <section className="container pointer-events-none z-40 py-4 absolute inset-0 flex items-end gap-8">
+        <SearchStation />
+
+        <section className="container pointer-events-none z-30 py-4 absolute inset-0 flex items-end gap-8">
           <div className="pointer-events-auto flex-grow">
             <RentInProgress />
           </div>
