@@ -15,7 +15,9 @@ import { BikesOrPlaces } from '@/components/molecules/Maps/Styles/Station'
 import { useGetRentsInProgressQuery } from '@/redux/services/cykleoApi'
 
 export default function Map() {
-  const rentsQuery = useGetRentsInProgressQuery(null)
+  const rentsQuery = useGetRentsInProgressQuery(null, {
+    pollingInterval: 6000
+  })
   const rent = rentsQuery.data?.content[0] ?? null
 
   const [showBikesOrPlaces, setShowBikesOrPlaces] = useState<BikesOrPlaces>('bikes')
