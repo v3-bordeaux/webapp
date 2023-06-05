@@ -30,8 +30,6 @@ export default function RentInProgress() {
           <Spinner />
         </section>
       ) : rent ? (
-        <span className="col-span-4">Pas de location en cours</span>
-      ) : (
         <>
           <section className="col-span-4 flex flex-col gap-4">
             <div className="rounded-2xl border-2 border-text-1 aspect-video w-full bg-background-1"></div>
@@ -64,6 +62,8 @@ export default function RentInProgress() {
             </article>
           </section>
         </>
+      ) : (
+        <span className="col-span-4">Pas de location en cours</span>
       )}
     </main>
   )
