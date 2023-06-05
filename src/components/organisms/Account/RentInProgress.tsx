@@ -2,7 +2,7 @@
 import React from 'react'
 import { useGetRentsInProgressQuery } from '@/redux/services/cykleoApi'
 
-import { H2, Spinner, Card } from '@/components/atoms'
+import { Spinner } from '@/components/atoms'
 import RentInProgressCard from '@/components/molecules/RentInProgressCard'
 
 export function RentInProgress() {

@@ -57,11 +57,19 @@ export default function RentInProgressResume({ rent }: RentInProgressResumeProps
       )}
 
       <div className="grid grid-cols-4 gap-x-4">
-        <article className="col-span-3 flex items-center gap-2 text-sm md:text-md rounded-2xl border-2 border-text-1 bg-primary-1 px-4 py-2">
+        <article className="col-span-3 flex items-center gap-4 text-sm md:text-md rounded-2xl border-2 border-text-1 bg-primary-1 px-4 py-2">
           <Alarm />
+          <div>
+            <p>{durationInMinutes} min d&apos;emprunt</p>
+            {isFreeTimeSpent ? (
+              <p>{paidTime} min payantes</p>
+            ) : (
+              <p>Encore {timeLeftInMinutes} min gratuites</p>
+            )}
+          </div>
         </article>
 
-        <button className="col-span-1 flex flex-col items-center gap-2 text-sm md:text-md rounded-2xl border-2 border-text-1 bg-cta-1 px-4 py-2">
+        <button className="col-span-1 flex flex-col items-center gap-1 text-sm md:text-md rounded-2xl border-2 border-text-1 bg-cta-1 px-4 py-2">
           <Money />
           <span>Tarifs</span>
         </button>
