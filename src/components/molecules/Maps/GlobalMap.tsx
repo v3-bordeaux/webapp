@@ -31,7 +31,9 @@ export default function GlobalMap({
   onClusterFeatureClick,
   children
 }: GlobalMapProps) {
-  const vcubsQuery = useGetVcubsQuery()
+  const vcubsQuery = useGetVcubsQuery(null, {
+    pollingInterval: 6000
+  })
 
   const [center] = useState(bordeauxCoord)
   const [zoom] = useState(12)
