@@ -29,7 +29,7 @@ export default function RentInProgress() {
         <section className="col-span-4 flex items-center justify-center">
           <Spinner />
         </section>
-      ) : rentsQuery.data.number === 0 ? (
+      ) : rent ? (
         <span className="col-span-4">Pas de location en cours</span>
       ) : (
         <>
