@@ -35,6 +35,17 @@ export interface Rent {
   cardNumber: string
 }
 
+export interface RentInProgress {
+  id: number
+  beginDate: string
+  status: string
+  organization: number
+  stationStart: number
+  subscription: number
+  bike: number
+  cardNumber: string
+}
+
 export interface Sort {
   direction: string
   property: string
