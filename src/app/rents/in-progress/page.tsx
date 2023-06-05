@@ -16,7 +16,7 @@ export default function RentInProgress() {
     <main className="container mx-auto grid grid-cols-4 gap-y-10 gap-x-4 pt-4 pb-10">
       <section className="col-span-4 flex gap-8 items-center">
         <Link
-          href="/map"
+          href="/"
           className="flex items-center justify-center p-2 text-text-1 bg-cta-1 border-2 border-text-1 rounded-full"
         >
           <ChevronLeft strokeWidth="2" className="" />
@@ -29,9 +29,7 @@ export default function RentInProgress() {
         <section className="col-span-4 flex items-center justify-center">
           <Spinner />
         </section>
-      ) : rentsQuery.data.number === 0 ? (
-        <span className="col-span-4">Pas de location en cours</span>
-      ) : (
+      ) : rent ? (
         <>
           <section className="col-span-4 flex flex-col gap-4">
             <div className="rounded-2xl border-2 border-text-1 aspect-video w-full bg-background-1"></div>
@@ -64,6 +62,8 @@ export default function RentInProgress() {
             </article>
           </section>
         </>
+      ) : (
+        <span className="col-span-4">Pas de location en cours</span>
       )}
     </main>
   )
