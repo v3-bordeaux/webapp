@@ -5,14 +5,14 @@ import { useGetVcubsQuery } from '@/redux/services/tbmWSApi'
 import { useGetStationQuery } from '@/redux/services/cykleoApi'
 import { Bicycle } from '@v3-bordeaux/akar-icons'
 
-import type { Rent } from '@/_types/cykleo/rent'
+import type { RentInProgress } from '@/_types/cykleo/rent'
 import type { Station } from '@/_types/tbm/ws/station'
-import { H2 } from '../atoms'
+import { H2 } from '@/components/atoms'
 import Link from 'next/link'
 
 const freeTimeInMinutes = 30
 
-export default function RentInProgressCard({ rent }: { rent: Rent }) {
+export default function RentInProgressCard({ rent }: { rent: RentInProgress }) {
   const [stationStart, setStationStart]: [Station, Function] = useState(null)
 
   const vcubsQuery = useGetVcubsQuery()
