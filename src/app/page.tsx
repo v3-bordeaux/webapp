@@ -16,7 +16,7 @@ import { useGetRentsInProgressQuery } from '@/redux/services/cykleoApi'
 
 export default function Map() {
   const rentsQuery = useGetRentsInProgressQuery(null, {
-    pollingInterval: 6000
+    pollingInterval: 10000
   })
   const rent = rentsQuery.data?.content[0] ?? null
 

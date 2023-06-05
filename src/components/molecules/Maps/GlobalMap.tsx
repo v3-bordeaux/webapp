@@ -32,7 +32,7 @@ export default function GlobalMap({
   children
 }: GlobalMapProps) {
   const vcubsQuery = useGetVcubsQuery(null, {
-    pollingInterval: 6000
+    pollingInterval: 10000
   })
 
   const [center] = useState(bordeauxCoord)
