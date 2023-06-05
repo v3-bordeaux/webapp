@@ -16,7 +16,7 @@ export default function RentInProgress() {
     <main className="container mx-auto grid grid-cols-4 gap-y-10 gap-x-4 pt-4 pb-10">
       <section className="col-span-4 flex gap-8 items-center">
         <Link
-          href="/map"
+          href="/"
           className="flex items-center justify-center p-2 text-text-1 bg-cta-1 border-2 border-text-1 rounded-full"
         >
           <ChevronLeft strokeWidth="2" className="" />
