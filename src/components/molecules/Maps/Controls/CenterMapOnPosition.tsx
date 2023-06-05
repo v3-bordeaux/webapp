@@ -2,15 +2,14 @@ import { useContext, useEffect, useState } from 'react'
 import MapContext, { MapContextContent } from '@/components/molecules/Maps/Map/MapContext'
 import { Location } from '@v3-bordeaux/akar-icons'
 import { useGeolocation } from '@/hooks/useGeolocation'
-import { BottomSheet } from '../../BottomSheet'
+import { BottomSheet } from '@/components/molecules/BottomSheet'
 import { H2 } from '@/components/atoms'
 
 export function CenterMapOnPosition() {
   const { map } = useContext<MapContextContent>(MapContext)
   const { geolocation, setProjection } = useGeolocation()
   const [isAskPermissionBottomSheetOpen, setIsAskPermissionBottomSheetOpen] = useState(false)
-
-  const canGeolocate = !!map && !!geolocation && !!geolocation.getPosition()
+  const [canGeolocate, setCanGeolocate] = useState(false)
 
   useEffect(() => {
     if (!map) {
@@ -20,16 +19,16 @@ export function CenterMapOnPosition() {
     setProjection(map.getView().getProjection())
   }, [map, setProjection])
 
-  const centerMapOnPosition = () => {
+  useEffect(() => {
     if (!geolocation) {
       return
     }
 
-    if (!geolocation.getPosition()) {
-      setIsAskPermissionBottomSheetOpen(true)
-      return
-    }
+    geolocation.on('error', () => setCanGeolocate(false))
+    geolocation.on('change', () => setCanGeolocate(true))
+  }, [geolocation])
 
+  const centerMapOnPosition = () => {
     map.getView().setCenter(geolocation.getPosition())
   }
 
@@ -41,8 +40,7 @@ export function CenterMapOnPosition() {
             ? ' shadow-brut active:shadow-none active:translate-x-1 active:translate-y-1'
             : ' grayscale'
         }`}
-        onClick={centerMapOnPosition}
-        disabled={canGeolocate}
+        onClick={canGeolocate ? centerMapOnPosition : () => setIsAskPermissionBottomSheetOpen(true)}
       >
         <Location className="h-8 w-8" />
       </button>
@@ -51,7 +49,11 @@ export function CenterMapOnPosition() {
         isOpen={isAskPermissionBottomSheetOpen}
         onClick={() => setIsAskPermissionBottomSheetOpen(false)}
       >
-        <H2>Vous devez autoriser la localisation</H2>
+        <H2>Impossible de vous géolocaliser</H2>
+        <p className="mt-2">
+          Vérifiez que vous avez autorisé le site à accéder à votre géolocalisation. Assurez-vous
+          également qu&apos;elle soit activée sur votre appareil.
+        </p>
       </BottomSheet>
     </>
   )
