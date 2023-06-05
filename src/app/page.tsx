@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import GlobalMap from '@/components/molecules/Maps/GlobalMap'
 import { RentInProgress } from '@/components/organisms/Account/RentInProgress'
@@ -12,10 +12,18 @@ import type { Station } from '@/_types/tbm/ws/station'
 import SearchStation from '@/components/molecules/SearchStation'
 import { BottomSheet } from '@/components/molecules/BottomSheet'
 import { BikesOrPlaces } from '@/components/molecules/Maps/Styles/Station'
+import { useGetRentsInProgressQuery } from '@/redux/services/cykleoApi'
 
 export default function Map() {
+  const rentsQuery = useGetRentsInProgressQuery(null)
+  const rent = rentsQuery.data?.content[0] ?? null
+
   const [showBikesOrPlaces, setShowBikesOrPlaces] = useState<BikesOrPlaces>('bikes')
   const [showStation, setShowStation] = useState<Station>()
+
+  useEffect(() => {
+    setShowBikesOrPlaces(!!rent ? 'places' : 'bikes')
+  }, [rent])
 
   const toggleShowBikesOrPlaces = () => {
     setShowBikesOrPlaces(showBikesOrPlaces === 'bikes' ? 'places' : 'bikes')
