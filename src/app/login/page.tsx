@@ -4,12 +4,12 @@ import { useAppDispatch } from '@/redux/hooks'
 import { setToken } from '@/redux/features/cykleoTokenSlice'
 import { useLoginMutation } from '@/redux/services/cykleoApi'
 
-import { Input, Button, Card, H1 } from '@/components/atoms'
+import { Input, Button, H1 } from '@/components/atoms'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 
 export default function Login() {
-  const { push } = useRouter();
+  const { push } = useRouter()
   const [username, setUsername] = useState(process.env.NEXT_PUBLIC_CYKLEO_USERNAME || null)
   const [password, setPassword] = useState(process.env.NEXT_PUBLIC_CYKLEO_PASSWORD || null)
   const [login, loginResponse] = useLoginMutation()
@@ -28,7 +28,7 @@ export default function Login() {
   useEffect(() => {
     if (loginResponse.status === 'fulfilled') {
       dispatch(setToken(loginResponse.data.access_token))
-      push('/');
+      push('/')
     }
   }, [loginResponse, dispatch, push])
 
@@ -36,10 +36,10 @@ export default function Login() {
     <main className="container flex flex-col justify-between h-screen py-8">
       <hgroup className="text-center">
         <H1>Bovélo</H1>
-        <p>L&apos;appli Vcub en mieux</p>
+        <p>Accéder au service Vcub</p>
       </hgroup>
 
-      <Image src="/logo.svg" alt=" " width={400} height={400} className='w-1/2 mx-auto'/>
+      <Image src="/logo.svg" alt=" " width={400} height={400} className="w-1/2 mx-auto" />
 
       <form className="flex flex-col py-4">
         {wrongAuth && (
@@ -77,6 +77,5 @@ export default function Login() {
         </Button>
       </form>
     </main>
-
   )
 }
