@@ -8,7 +8,7 @@ export function Initialiser({ children }) {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(loadFromLocalStorage())
+    // dispatch(loadFromLocalStorage())
   }, [])
 
   return <>{children}</>

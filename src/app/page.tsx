@@ -7,16 +7,21 @@ import { Bicycle, Parking } from '@v3-bordeaux/akar-icons'
 import { CenterMapOnPosition } from '@/components/molecules/Maps/Controls/CenterMapOnPosition'
 import { StationDetails } from '@/components/molecules/StationDetails'
 
-import type { Feature } from 'ol'
-import type { Station } from '@/_types/tbm/ws/station'
 import SearchStation from '@/components/molecules/SearchStation'
 import { BottomSheet } from '@/components/molecules/BottomSheet'
 import { BikesOrPlaces } from '@/components/molecules/Maps/Styles/Station'
 import { useGetRentsInProgressQuery } from '@/redux/services/cykleoApi'
+import { useAppSelector } from '@/redux/hooks'
+
+import type { Feature } from 'ol'
+import type { Station } from '@/_types/tbm/ws/station'
+import type { RootState } from '@/redux/store'
 
 export default function Map() {
+  const token = useAppSelector((state: RootState) => state.cykleoTokenReducer.value)
   const rentsQuery = useGetRentsInProgressQuery(null, {
-    pollingInterval: 10000
+    pollingInterval: 10000,
+    skip: !token
   })
   const rent = rentsQuery.data?.content[0] ?? null
 
