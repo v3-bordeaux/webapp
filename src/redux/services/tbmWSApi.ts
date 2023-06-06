@@ -1,22 +1,19 @@
-import {createApi} from "@reduxjs/toolkit/query/react";
-import fetchBaseQueryAuth from "@/redux/services/query";
-import {VcubResponse} from "@/_types/tbm/ws/station";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { VcubResponse } from '@/_types/tbm/ws/station'
 
 export const tbmWSApi = createApi({
-    reducerPath: "tbmWSApi",
-    baseQuery: fetchBaseQueryAuth({
-        baseUrl: "/tbm/ws/",
-    }),
-    endpoints: (builder) => ({
-        getVcubs: builder.query<VcubResponse, void>({
-            query: () => ({
-                url: `/vcubs`,
-                credentials: 'include',
-            }),
-        }),
-    }),
-});
+  reducerPath: 'tbmWSApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: '/tbm/ws/'
+  }),
+  endpoints: (builder) => ({
+    getVcubs: builder.query<VcubResponse, void>({
+      query: () => ({
+        url: `/vcubs`,
+        credentials: 'include'
+      })
+    })
+  })
+})
 
-export const {
-    useGetVcubsQuery
-} = tbmWSApi;
+export const { useGetVcubsQuery } = tbmWSApi

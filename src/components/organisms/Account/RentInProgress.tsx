@@ -2,7 +2,7 @@
 import React from 'react'
 import { useGetRentsInProgressQuery } from '@/redux/services/cykleoApi'
 
-import { Spinner } from '@/components/atoms'
+import { H2, Spinner } from '@/components/atoms'
 import RentInProgressCard from '@/components/molecules/RentInProgressCard'
 
 export function RentInProgress() {
@@ -24,17 +24,28 @@ export function RentInProgress() {
   //   totalElements: 1
   // }
 
+  let content
+  if (!isLoading) {
+    if (error) {
+      content = (
+        <>
+          <H2>Connectez-vous</H2>
+          <p>Pour afficher votre vélo, vos trajets, et plus encore</p>
+        </>
+      )
+    }
+
+    if (data?.totalElements === 0) {
+      content = <span>Pas de location en cours</span>
+    }
+    if (data?.totalElements === 1) {
+      content = <RentInProgressCard rent={data?.content[0]} />
+    }
+  }
+
   return (
     <div className="relative rounded-3xl text-text-1 bg-secondary-1 shadow-brut px-5 py-4 border-2 border-text-1">
-      {isLoading ? (
-        <Spinner />
-      ) : data.totalElements === 0 ? (
-        <>
-          <span>Pas de location en cours</span>
-        </>
-      ) : (
-        <RentInProgressCard rent={data.content[0]} />
-      )}
+      {content}
     </div>
   )
 }
